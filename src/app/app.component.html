@@ -1,0 +1,24 @@
+﻿<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" routerLink="/" routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+    <ng-template ngFor let-aEventType [ngForOf]="eventTypes">
+      <a routerLink="/eventtype/list/{{aEventType.eventType.id}}"
+         href="/eventtype/list/{{aEventType.eventType.id}}"
+         class="nav-item nav-link"
+         routerLinkActive="active" *ngIf="aEventType.eventType.id==4||aEventType.eventType.id==2">{{aEventType.eventType.name}}({{aEventType.marketCount}})</a>
+    </ng-template>
+
+    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+</nav>
+
+<!-- main app container -->
+<div class="app-container" [ngClass]="{ 'bg-light': user }">
+  <alert></alert>
+  <router-outlet></router-outlet>
+
+</div>
+

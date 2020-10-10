@@ -1,0 +1,166 @@
+﻿<h2>Showing {{competitions.length}} competitions of {{eventType.eventType.name}}, with {{eventType.marketCount}} live
+  markets</h2>
+
+<!--Accordion wrapper-->
+<div class="accordion md-accordion accordion-blocks" id="accordionEx78" role="tablist" aria-multiselectable="true">
+
+  <!-- Accordion card -->
+  <div class="card" *ngFor="let aCompetition of competitions">
+
+    <!-- Card header -->
+    <div class="card-header" role="tab" id="heading{{aCompetition.competition.id}}">
+
+      <!--Options-->
+      <div class="dropdown float-left">
+        <button class="btn btn-info btn-sm m-0 mr-3 p-2 dropdown-toggle" type="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"><i class="fas fa-pencil-alt"></i></button>
+        <div class="dropdown-menu dropdown-info">
+          <a class="dropdown-item" (click)="betappService.disableCompetition(aCompetition.competition.id)">Deactivate
+            Competition</a>
+          <a class="dropdown-item" (click)="betappService.suspendCompetition(aCompetition.competition.id)">Suspend
+            Competition</a>
+          <a class="dropdown-item">Set Configuration</a>
+          <!--          Todo: Create a modal to be displayed here -->
+        </div>
+      </div>
+
+      <!-- Heading -->
+      <a data-toggle="collapse" data-parent="#accordionEx78" href="#collapse{{aCompetition.competition.id}}"
+         aria-expanded="false"
+         aria-controls="collapse{{aCompetition.competition.id}}">
+        <h5 class="mt-1 mb-0">
+          <span>{{aCompetition.competition.name}}</span>
+          <i class="fas fa-angle-down rotate-icon float-right"></i>
+        </h5>
+      </a>
+
+    </div>
+
+    <!-- Card body -->
+    <div id="collapse{{aCompetition.competition.id}}" class="collapse " role="tabpanel"
+         aria-labelledby="heading{{aCompetition.competition.id}}" data-parent="#accordionEx78">
+      <div class="card-body">
+        <div class="row">
+
+          <!--Grid column-->
+          <div class="col-xl-4 col-lg-6 col-md-12">
+
+            <!--Name-->
+            <select class="mdb-select colorful-select dropdown-info mx-2">
+              <option value="" disabled selected>Bulk actions</option>
+              <option value="1">Delete</option>
+              <option value="2">Change folder</option>
+            </select>
+
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-xl-4 col-lg-6 col-md-6">
+
+            <!--Blue select-->
+            <select class="mdb-select colorful-select dropdown-info mx-2">
+              <option value="" disabled>Show only</option>
+              <option value="1" selected>All <span> (2000)</span></option>
+              <option value="2">Clicks <span> (200)</span></option>
+              <option value="3">Page <span> (1800)</span></option>
+              <option value="4">Scroll <span> (200)</span></option>
+              <option value="5">Forms <span> (50)</span></option>
+              <option value="6">Time <span> (50)</span></option>
+              <option value="7">UTM <span> (50)</span></option>
+            </select>
+            <!--/Blue select-->
+
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-xl-4 col-lg-6 col-md-6 float-right">
+
+            <!--Blue select-->
+            <select class="mdb-select colorful-select dropdown-info mx-2">
+              <option value="" disabled selected>Filter</option>
+              <option value="1">All <span> (100)</span></option>
+              <option value="1">Active <span> (2000)</span></option>
+              <option value="2">Inactive <span> (1000)</span></option>
+            </select>
+            <!--/Blue select-->
+
+          </div>
+          <!--Grid column-->
+
+        </div>
+        <div class="row">
+          <div class="col-1">
+            <div class="row">
+              <div class="offset-4 col-4 float-right">
+
+                <input class="form-check-input" type="checkbox" id="checkbox4">
+                <label for="checkbox4" class="mr-2 label-table"></label>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-4"><a>Name (Markets) <i class="fas fa-sort ml-1"></i></a></div>
+          <div class="col-2"><a>Country<i class="fas fa-sort ml-1"></i></a></div>
+          <div class="col-3"><a>Open Date<i class="fas fa-sort ml-1"></i></a></div>
+          <div class="col-2">Options</div>
+        </div>
+        <div *ngFor="let anEvent of betappService.listEventsByCompetitionId(id, aCompetition.competition.id)| async"
+             class="accordion md-accordion accordion-blocks" id="comp{{aCompetition.competition.id}}" role="tablist"
+             aria-multiselectable="true">
+
+          <div role="tab" id="subheading{{anEvent.event.id}}" class="card-header">
+            <a data-toggle="collapse" data-parent="#comp{{aCompetition.competition.id}}"
+               href="#event{{anEvent.event.id}}"
+               aria-expanded="false"
+               aria-controls="collapse{{aCompetition.competition.id}}" class="row">
+              <div class="col-1">
+                <div class="row">
+                  <div class="offset-4 col-4 float-right">
+                    <input class="form-check-input" type="checkbox"
+                           id="checkbox{{anEvent.event.id}}_{{aCompetition.competition.id}}">
+                    <label for="checkbox{{anEvent.event.id}}_{{aCompetition.competition.id}}"
+                           class="label-table"></label>
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="col-4">{{anEvent.event.name}} ({{anEvent.marketCount}})</div>
+              <div class="col-2">{{anEvent.event.countryCode}}</div>
+              <div class="col-3">{{anEvent.event.openDate}}</div>
+              <div class="col-2">
+                <a><i class="fas fa-info mx-1" data-toggle="tooltip" data-placement="top"
+                      title="Tooltip on top"></i></a>
+                <a><i class="fas fa-pen-square mx-1"></i></a>
+                <a><i class="fas fa-times mx-1"></i></a>
+              </div>
+            </a>
+
+          </div>
+
+          <div id="event{{anEvent.event.id}}" class="collapse " role="tabpanel"
+               aria-labelledby="subheading{{aCompetition.competition.id}}"
+               data-parent="#comp{{aCompetition.competition.id}}">
+
+            <div class="row">
+              <div class="col-3"><strong>Market Id</strong></div>
+              <div class="col-5"><strong>Market Name</strong></div>
+              <div class="col-3"><strong>Total matched</strong></div>
+            </div>
+            <div *ngFor="let aMarket of betappService.listMarketsForEvent(anEvent.event.id) | async ">
+              <div class="row">
+                <div class="col-3">{{aMarket.marketId}}</div>
+                <div class="col-5">{{aMarket.marketName}}</div>
+                <div class="col-3">{{aMarket.totalMatched}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Accordion card -->
+
+  </div>
+</div>
