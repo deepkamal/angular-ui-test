@@ -145,14 +145,25 @@
                data-parent="#comp{{aCompetition.competition.id}}">
 
             <div class="row">
+              <div class="col-2"><strong>Select</strong></div>
               <div class="col-3"><strong>Market Id</strong></div>
-              <div class="col-5"><strong>Market Name</strong></div>
+              <div class="col-4"><strong>Market Name</strong></div>
               <div class="col-3"><strong>Total matched</strong></div>
             </div>
             <div *ngFor="let aMarket of betappService.listMarketsForEvent(anEvent.event.id) | async ">
               <div class="row">
+                <div class="col-2">
+                  <div class="row">
+                    <div class="offset-4 col-4">
+                      <input type="checkbox" id="checkbox{{anEvent.event.id}}_{{aMarket.marketId}}"
+                             (click)="betappService.enableMarket(eventType,aCompetition,anEvent,aMarket)">
+                      <label for="checkbox{{anEvent.event.id}}_{{aMarket.marketId}}"></label>
+                    </div>
+                  </div>
+
+                </div>
                 <div class="col-3">{{aMarket.marketId}}</div>
-                <div class="col-5">{{aMarket.marketName}}</div>
+                <div class="col-4">{{aMarket.marketName}}</div>
                 <div class="col-3">{{aMarket.totalMatched}}</div>
               </div>
             </div>

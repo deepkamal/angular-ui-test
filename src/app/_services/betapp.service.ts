@@ -34,6 +34,23 @@ export class BetappService {
 
     this.competitionSubject = new BehaviorSubject<Competition[]>(JSON.parse(localStorage.getItem('competitions')));
     this.competitions = this.competitionSubject.asObservable();
+
+    this.loadLiveMarkets();
+  }
+
+  loadLiveMarkets(): void {
+    // Load Live market - call the API eventMarkets
+
+    let listEMs = [];
+
+    const url = 'https://j8e31fqi63.execute-api.ap-south-1.amazonaws.com/test/getLiveMarkets';
+
+    console.log(`URL is ${url} ${typeof this.http}`)
+    this.http.get(url).pipe(map((liveMarkets: any) => {
+      console.log('BOOM',liveMarkets);
+    }));
+    console.log(`CALLLEDDDDDDDDDDD  URL is ${url} ${typeof this.http}`)
+
   }
 
   listEventType(): Observable<EventType[]> {
@@ -121,7 +138,18 @@ export class BetappService {
     }
   }
 
-  enableMarket(marketId): any {
+  enableMarket(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market): any {
+
+    this.loadLiveMarkets();
+
+    let eventMarketObj = anEvent;
+
+    eventMarketObj['competition'] = aCompetition;
+    eventMarketObj['eventType'] = eventType;
+    eventMarketObj['market'] = aMarket;
+
+    console.log(eventMarketObj);
+
   }
 
   disableMarket(marketId): any {
