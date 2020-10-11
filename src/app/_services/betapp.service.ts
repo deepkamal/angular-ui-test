@@ -19,6 +19,10 @@ export class BetappService {
   private competitions: Observable<Competition[]>;
   private competitionSubject: BehaviorSubject<Competition[]>;
 
+  private live_markets: {};
+  private markets_to_add: any;
+  private markets_to_remove: any;
+
   constructor(
     private router: Router,
     private http: HttpClient
@@ -35,21 +39,24 @@ export class BetappService {
     this.competitionSubject = new BehaviorSubject<Competition[]>(JSON.parse(localStorage.getItem('competitions')));
     this.competitions = this.competitionSubject.asObservable();
 
+    this.live_markets = {};
+    this.markets_to_add = {};
+    this.markets_to_remove = {};
+
     this.loadLiveMarkets();
   }
 
   loadLiveMarkets(): void {
     // Load Live market - call the API eventMarkets
-
-    let listEMs = [];
-
     const url = 'https://j8e31fqi63.execute-api.ap-south-1.amazonaws.com/test/getLiveMarkets';
 
-    console.log(`URL is ${url} ${typeof this.http}`)
-    this.http.get(url).pipe(map((liveMarkets: any) => {
-      console.log('BOOM',liveMarkets);
-    }));
-    console.log(`CALLLEDDDDDDDDDDD  URL is ${url} ${typeof this.http}`)
+    this.http.get(url).pipe().toPromise().then(data => {
+      if (Array.isArray(data)) {
+        data.map((market) => {
+          this.live_markets[market.eventId + "_" + market.marketId] = market;
+        })
+      }
+    });
 
   }
 
@@ -138,18 +145,33 @@ export class BetappService {
     }
   }
 
-  enableMarket(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market): any {
-
-    this.loadLiveMarkets();
+  enableMarket(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean): any {
 
     let eventMarketObj = anEvent;
 
+    eventMarketObj['eventId'] = anEvent.event.id;
+    eventMarketObj['marketId'] = aMarket.marketId;
+    let key = eventMarketObj['eventId'] + "_" + eventMarketObj['marketId'];
+    console.log(`Received Key ${key} for value ${selected}`)
     eventMarketObj['competition'] = aCompetition;
     eventMarketObj['eventType'] = eventType;
     eventMarketObj['market'] = aMarket;
 
-    console.log(eventMarketObj);
+    if (selected) {
+      if (this.live_markets[key] === undefined) {
+        console.log('Adding to enable list');
+        this.markets_to_add[key] = eventMarketObj;
+      }
+      delete this.markets_to_remove[key];
+    } else {
+      if (this.live_markets[key] !== undefined) {
+        console.log('Adding to DISABLE list');
+        this.markets_to_remove[key] = eventMarketObj;
+      }
+      delete this.markets_to_add[key];
+    }
 
+    console.log(this.markets_to_remove, this.markets_to_add);
   }
 
   disableMarket(marketId): any {
