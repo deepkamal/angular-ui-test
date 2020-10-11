@@ -20,8 +20,8 @@ export class BetappService {
   private competitionSubject: BehaviorSubject<Competition[]>;
 
   private live_markets: {};
-  private markets_to_add: any;
-  private markets_to_remove: any;
+  private _markets_to_add: any;
+  private _markets_to_remove: any;
 
   constructor(
     private router: Router,
@@ -40,10 +40,27 @@ export class BetappService {
     this.competitions = this.competitionSubject.asObservable();
 
     this.live_markets = {};
-    this.markets_to_add = {};
-    this.markets_to_remove = {};
+    this._markets_to_add = {};
+    this._markets_to_remove = {};
 
     this.loadLiveMarkets();
+  }
+
+
+  get markets_to_add(): any {
+    return this._markets_to_add;
+  }
+
+  set markets_to_add(value: any) {
+    this._markets_to_add = value;
+  }
+
+  get markets_to_remove(): any {
+    return this._markets_to_remove;
+  }
+
+  set markets_to_remove(value: any) {
+    this._markets_to_remove = value;
   }
 
   loadLiveMarkets(): void {
@@ -160,18 +177,18 @@ export class BetappService {
     if (selected) {
       if (this.live_markets[key] === undefined) {
         console.log('Adding to enable list');
-        this.markets_to_add[key] = eventMarketObj;
+        this._markets_to_add[key] = eventMarketObj;
       }
-      delete this.markets_to_remove[key];
+      delete this._markets_to_remove[key];
     } else {
       if (this.live_markets[key] !== undefined) {
         console.log('Adding to DISABLE list');
-        this.markets_to_remove[key] = eventMarketObj;
+        this._markets_to_remove[key] = eventMarketObj;
       }
-      delete this.markets_to_add[key];
+      delete this._markets_to_add[key];
     }
 
-    console.log(this.markets_to_remove, this.markets_to_add);
+    console.log(this._markets_to_remove, this._markets_to_add);
   }
 
   disableMarket(marketId): any {
