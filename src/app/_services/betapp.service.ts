@@ -162,33 +162,74 @@ export class BetappService {
     }
   }
 
+  listMarketRunners(marketId): Observable<Runner[]> {
+    const url = `http://cricflame.co.in/developer/listMarketRunner/${marketId}`;
+
+    // find if the Runners are  in localStorage or not
+    const marketRunners = localStorage.getItem(`RUNNERS_${marketId}`) != null ?
+      JSON.parse(localStorage.getItem(`RUNNERS_${marketId}`)) : null;
+
+    if (marketRunners == null) {
+      // find events from HTTP Call
+      return this.http.get(url).pipe(map((runners: Runner[]) => {
+        localStorage.setItem(`RUNNERS_${marketId}`, JSON.stringify(runners));
+        return runners;
+      }));
+    } else {
+      return of(marketRunners) as Observable<Runner[]>;
+    }
+  }
+
   enableMarket(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean): any {
+    let eventMarketObj = {
+      eventId: anEvent.event.id,
+      eventName: anEvent.event.name,
+      eventOpenDate: anEvent.event.openDate,
+      eventMarketCount: anEvent.marketCount,
+      competitionName: aCompetition.competition.name,
+      competitionId: aCompetition.competition.id,
+      competitionMarketCount: aCompetition.marketCount,
+      competitionRegion: aCompetition.competitionRegion,
+      eventTypeId: eventType.eventType.id,
+      eventTypeName: eventType.eventType.name,
+      marketId: aMarket.marketId,
+      marketName: aMarket.marketName,
+      marketMatched: aMarket.totalMatched,
+      "min_bet": 300,
+      "max_bet": 3000
+    };
 
-    let eventMarketObj = anEvent;
-
-    eventMarketObj['eventId'] = anEvent.event.id;
-    eventMarketObj['marketId'] = aMarket.marketId;
     let key = eventMarketObj['eventId'] + "_" + eventMarketObj['marketId'];
     console.log(`Received Key ${key} for value ${selected}`)
-    eventMarketObj['competition'] = aCompetition;
-    eventMarketObj['eventType'] = eventType;
-    eventMarketObj['market'] = aMarket;
 
-    if (selected) {
-      if (this.live_markets[key] === undefined) {
-        console.log('Adding to enable list');
-        this._markets_to_add[key] = eventMarketObj;
-      }
-      delete this._markets_to_remove[key];
-    } else {
-      if (this.live_markets[key] !== undefined) {
-        console.log('Adding to DISABLE list');
-        this._markets_to_remove[key] = eventMarketObj;
-      }
-      delete this._markets_to_add[key];
-    }
+    return this.listMarketRunners(aMarket.marketId).subscribe(data => {
+      console.log(`got data ${data}`, data)
+      eventMarketObj['selections'] = data[0]['runners']
 
-    console.log(this._markets_to_remove, this._markets_to_add);
+      let selectionObj = {}
+
+      eventMarketObj['selections'].map((sel, index) => {
+        selectionObj[sel.selectionId] = sel;
+      })
+
+      eventMarketObj['selectionsObj'] = selectionObj;
+      if (selected) {
+        if (this.live_markets[key] === undefined) {
+          console.log('Adding to enable list');
+          this._markets_to_add[key] = eventMarketObj;
+        }
+        delete this._markets_to_remove[key];
+      } else {
+        if (this.live_markets[key] !== undefined) {
+          console.log('Adding to DISABLE list');
+          this._markets_to_remove[key] = eventMarketObj;
+        }
+        delete this._markets_to_add[key];
+      }
+
+      // console.log(this._markets_to_remove, this._markets_to_add);
+    });
+
   }
 
   disableMarket(marketId): any {
@@ -218,5 +259,12 @@ export class BetappService {
   disableEventType(eventTypeId): any {
   }
 
+  saveMarkets(): any {
+    console.log("going to save markets", this.markets_to_remove, this.markets_to_add);
+    return this.http.post(
+      "https://kxkn0cd8ti.execute-api.ap-south-1.amazonaws.com/v1/eventMarkets",
+      Object.values(this.markets_to_add),
+      {headers: {"x-icloudex-iss": "OrgAdmin"}}).pipe().toPromise();
+  }
 
 }

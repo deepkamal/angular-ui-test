@@ -48,8 +48,8 @@
             <!--Name-->
             <select class="mdb-select colorful-select dropdown-info mx-2">
               <option value="" disabled selected>Bulk actions</option>
-              <option value="1">Delete</option>
-              <option value="2">Change folder</option>
+              <option value="1">Suspend All</option>
+              <option value="2">Change Configurations</option>
             </select>
 
           </div>
@@ -106,42 +106,46 @@
           <div class="col-3"><a>Open Date<i class="fas fa-sort ml-1"></i></a></div>
           <div class="col-2">Options</div>
         </div>
-        <ng-template ngFor let-anEvent [ngForOf]="betappService.listEventsByCompetitionId(id, aCompetition.competition.id)| async">
-          <div class="accordion md-accordion accordion-blocks" id="comp{{aCompetition.competition.id}}" role="tablist" aria-multiselectable="true">
+        <ng-template ngFor let-anEvent
+                     [ngForOf]="betappService.listEventsByCompetitionId(id, aCompetition.competition.id)| async">
+          <div class="accordion md-accordion accordion-blocks" id="comp{{aCompetition.competition.id}}" role="tablist"
+               aria-multiselectable="true">
 
             <div role="tab" id="subheading{{anEvent.event.id}}" class="card-header">
-              <a data-toggle="collapse" data-parent="#comp{{aCompetition.competition.id}}"
-                 href="#event{{anEvent.event.id}}"
-                 aria-expanded="false"
-                 class="row">
+              <div class="row">
                 <div class="col-1">
                   <div class="row">
                     <div class="offset-4 col-4 float-right">
+                      <label for="checkbox{{anEvent.event.id}}_{{aCompetition.competition.id}}"></label>
                       <input class="form-check-input" type="checkbox"
                              id="checkbox{{anEvent.event.id}}_{{aCompetition.competition.id}}">
-                      <!--                    <label for="checkbox{{anEvent.event.id}}_{{aCompetition.competition.id}}"-->
-                      <!--                           class="label-table"></label>-->
                     </div>
-
                   </div>
+                </div>
+                <div class="col-11">
+                  <a data-toggle="collapse" data-parent="#comp{{aCompetition.competition.id}}"
+                     href="#event{{anEvent.event.id}}"
+                     aria-expanded="false"
+                     class="row">
 
+                    <div class="col-4" aria-controls="collapse{{aCompetition.competition.id}}"> {{anEvent.event.name}}
+                      ({{anEvent.marketCount}})
+                    </div>
+                    <div class="col-2">{{anEvent.event.countryCode}}</div>
+                    <div class="col-3">{{anEvent.event.openDate}}</div>
+                    <div class="col-2">
+                      <a><i class="fas fa-info mx-1" data-toggle="tooltip" data-placement="top"
+                            title="Tooltip on top"></i></a>
+                      <a><i class="fas fa-pen-square mx-1"></i></a>
+                      <a><i class="fas fa-times mx-1"></i></a>
+                    </div>
+                  </a>
                 </div>
-                <div class="col-4" aria-controls="collapse{{aCompetition.competition.id}}"> {{anEvent.event.name}}
-                  ({{anEvent.marketCount}})
-                </div>
-                <div class="col-2">{{anEvent.event.countryCode}}</div>
-                <div class="col-3">{{anEvent.event.openDate}}</div>
-                <div class="col-2">
-                  <a><i class="fas fa-info mx-1" data-toggle="tooltip" data-placement="top"
-                        title="Tooltip on top"></i></a>
-                  <a><i class="fas fa-pen-square mx-1"></i></a>
-                  <a><i class="fas fa-times mx-1"></i></a>
-                </div>
-              </a>
+              </div>
 
             </div>
 
-            <div id="event{{anEvent.event.id}}" class="collapse " role="tabpanel"
+            <div id="event{{anEvent.event.id}}" class="collapse" role="tabpanel"
                  aria-labelledby="subheading{{aCompetition.competition.id}}"
                  data-parent="#comp{{aCompetition.competition.id}}">
 
@@ -151,6 +155,7 @@
                 <div class="col-4"><strong>Market Name</strong></div>
                 <div class="col-3"><strong>Total matched</strong></div>
               </div>
+
               <div *ngFor="let aMarket of betappService.listMarketsForEvent(anEvent.event.id) | async ">
 
                 <div class="row">
@@ -158,8 +163,8 @@
                     <div class="row">
                       <div class="offset-4 col-4">
                         <input #val type="checkbox" id="checkbox{{anEvent.event.id}}_{{aMarket.marketId}}"
-                               (click)="betappService.enableMarket(eventType,aCompetition,anEvent,aMarket,val.checked)">
-                        <!--                      <label for="checkbox{{anEvent.event.id}}_{{aMarket.marketId}}"></label>-->
+                               (click)="enableMarket(eventType,aCompetition,anEvent,aMarket,val.checked)">
+                        <label for="checkbox{{anEvent.event.id}}_{{aMarket.marketId}}"></label>
                       </div>
                     </div>
 
@@ -181,3 +186,4 @@
 
 </div>
 
+<button name="saveAll" (click)="saveMarkets()">-SAVE-</button>
