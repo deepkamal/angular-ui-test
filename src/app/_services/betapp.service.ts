@@ -267,4 +267,9 @@ export class BetappService {
       {headers: {"x-icloudex-iss": "OrgAdmin"}}).pipe().toPromise();
   }
 
+  clearMarkets(): boolean {
+    this.markets_to_add = [];
+    return (this.markets_to_add.length === 0);
+  }
+
 }
