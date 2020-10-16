@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Competition, EventType, Market } from '@app/_models/events';
+import {Competition, Event, EventType, Market} from '../../_models/events';
 import { BetappService } from '@app/_services';
 
 @Component({
@@ -14,6 +14,7 @@ export class EventListComponent implements OnInit {
   eventType: EventType;
   id: number;
   alldata: any;
+  data: any[];
 
   constructor(
     private route: ActivatedRoute,
