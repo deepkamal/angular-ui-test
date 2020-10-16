@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {LayoutComponent} from './layout.component';
 import {ListComponent} from './list.component';
 import {EventTypesRoutingModule} from './eventTypes-routing.module';
+import { EventListComponent } from './event-list/event-list.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {EventTypesRoutingModule} from './eventTypes-routing.module';
   ],
   declarations: [
     LayoutComponent,
-    ListComponent
+    ListComponent,
+    EventListComponent
   ]
 })
 export class EventTypesModule { }

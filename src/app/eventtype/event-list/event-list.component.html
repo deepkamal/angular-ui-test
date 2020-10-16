@@ -1,0 +1,53 @@
+<div id="accordion">
+    <div class="card" *ngFor="let aCompetition of data">
+      <div class="card-header" id="heading-1">
+        <h5 class="mb-0">
+          <a role="button" data-toggle="collapse" href="#collapse{{aCompetition.comp.competition.id}}" aria-expanded="false" aria-controls="collapse-1">
+            {{aCompetition.comp.competition.name}}
+          </a>
+        </h5>
+      </div>
+      <div id="collapse{{aCompetition.comp.competition.id}}" class="collapse" data-parent="#accordion" aria-labelledby="heading-1">
+        <div class="card-body">
+  
+          <div id="accordion-1">
+            <div class="card" *ngFor="let item of aCompetition.event">
+              <div class="card-header" id="heading-1-1">
+                <h5 class="mb-0">
+                  <a class="collapsed" role="button" data-toggle="collapse" href="#collapse{{item.event.id}}_{{aCompetition.comp.competition.id}}" aria-expanded="false" aria-controls="collapse-1-1">
+                    {{ item.event.name }} ({{item.marketCount}})
+                  </a>
+                </h5>
+              </div>
+              <div id="collapse{{item.event.id}}_{{aCompetition.comp.competition.id}}" class="collapse" data-parent="#accordion-1" aria-labelledby="heading-1-1">
+                <div class="card-body">
+  
+                        <div>
+                            <table class="table">
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Market Id</th>
+                                    <th>Market Name</th>
+                                    <th>Total matched</th>
+                                </tr>
+                                <tr *ngFor="let aMarket of aCompetition.market">
+                                    <td><input #val type="checkbox" (click)="enableMarket(eventType,aCompetition.comp,item,aMarket,val.checked)"></td>
+                                    <td>{{aMarket.marketId}}</td>
+                                    <td>{{aMarket.marketName}}</td>
+                                    <td>{{aMarket.totalMatched}}</td>
+                                </tr>
+                            </table>
+                            
+                          </div>
+  
+                </div>
+              </div>
+            </div>
+            
+          </div>      
+        
+        </div>
+      </div>
+    </div>
+    
+  </div>
