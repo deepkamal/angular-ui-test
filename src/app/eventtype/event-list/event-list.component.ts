@@ -25,29 +25,51 @@ export class EventListComponent implements OnInit {
   ngOnInit(): any {
 
     this.id = this.route.snapshot.params.id;
+    alert(this.id);
     this.data=[];
     this.eventType = this.betappService.getEventTypeById(this.id);
     // console.log(`GOT ID=${this.id}`);
     this.betappService.listCompetitionsByEventType(this.id).subscribe(x => {
       this.competitions = x;
+      //this.data=x;
+      //this.alldata={};
       x.forEach(element => {
         this.alldata={};
-        this.betappService.listEventsByCompetitionId(this.id,element.competition.id).subscribe(y => {
-        // betappService.listEventsByCompetitionId(id, aCompetition.competition.id)
-          this.alldata['comp']=element;
-          this.alldata['event']=y;
-          //betappService.listMarketsForEvent(item.event.id)
-          y.forEach(element1 => {
-            this.betappService.listMarketsForEvent(element1.event.id).subscribe(z => {
-              this.alldata['market']=z;
-            })
-          });
+        this.alldata['comp']=element;
+        // this.betappService.listEventsByCompetitionId(this.id,element.competition.id).subscribe(y => {
+        // // betappService.listEventsByCompetitionId(id, aCompetition.competition.id)
+        //   this.alldata['comp']=element;
+        //   this.alldata['event']=y;
+        //   //betappService.listMarketsForEvent(item.event.id)
+        //   y.forEach(element1 => {
+        //     this.betappService.listMarketsForEvent(element1.event.id).subscribe(z => {
+        //       this.alldata['market']=z;
+        //     })
+        //   });
           
           this.data.push(this.alldata);
       });
-    });
+    //});
       console.log(`Competitions GOT :::: `, this.data);
     });
+    
+  }
+
+  getevent(cid,i){
+    if(this.data[i].event==undefined){
+    this.betappService.listEventsByCompetitionId(this.id,cid).subscribe(y => {
+      this.data[i]['event']=y;
+    })
+  }
+  }
+
+  getmarket(eid,i,j){
+    if(this.data[i].event[j].market==undefined){
+    this.betappService.listMarketsForEvent(eid).subscribe(z => {
+      this.data[i]['event'][j]['market']=z;
+      console.log(this.data);
+    })
+  }
     
   }
 

@@ -14,8 +14,8 @@
   <alert></alert>
   <ng-template ngFor let-aEventType [ngForOf]="eventTypes">
     <div class="float-left side-bar">
-      <a routerLink="/eventtype/list/{{aEventType.eventType.id}}"
-         href="/eventtype/list/{{aEventType.eventType.id}}"
+      <a 
+         href="/eventtype/eventlist/{{aEventType.eventType.id}}"
          class="nav-item nav-link"
          routerLinkActive="active" *ngIf="aEventType.eventType.id==4||aEventType.eventType.id==2">
         {{aEventType.eventType.name}}({{aEventType.marketCount}})
