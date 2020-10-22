@@ -15,7 +15,18 @@
               <div class="card-header" id="heading-1-1">
                 <h5 class="mb-0">
                   <a class="collapsed" role="button" (click)="getmarket(item.event.id,i,j)" data-toggle="collapse" href="#collapse{{item.event.id}}_{{aCompetition.comp.competition.id}}" aria-expanded="false" aria-controls="collapse-1-1">
-                    {{ item.event.name }} ({{item.marketCount}})
+                    
+                    <div class="row">
+                      <div class="col-md-3">{{ item.event.name }} ({{item.marketCount}})</div>
+                      <div class="col-md-3">{{ item.event.countryCode }}</div>
+                      <div class="col-md-3">{{ item.event.openDate | date:'medium' }}</div>
+                      <div class="col-md-3">
+                        <a><i class="fas fa-toggle-on"></i></a>
+                        <a><i class="fas fa-toggle-off"></i></a>
+                        <a><i data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="fas fa-info mx-1"></i></a>
+                        <a><i class="fas fa-times mx-1"></i></a>
+                      </div>
+                    </div>
                   </a>
                 </h5>
               </div>
