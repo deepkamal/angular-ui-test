@@ -77,6 +77,13 @@ export class BetappService {
 
   }
 
+  getAllLiveMarkets(): Observable<any> {
+    const url = 'https://j8e31fqi63.execute-api.ap-south-1.amazonaws.com/test/getLiveMarkets';
+    return this.http.get<any>(url);
+
+    // return this.http.get<any>(this.apiUrl + "menus/"+menuType);
+  }
+
   listEventType(): Observable<EventType[]> {
     // const url = this.EVENT_API + 'listEventTypes';
     const url = 'http://cricflame.co.in/developer/listEventTypes';

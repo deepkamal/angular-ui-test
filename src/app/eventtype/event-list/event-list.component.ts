@@ -15,6 +15,7 @@ export class EventListComponent implements OnInit {
   id: number;
   alldata: any;
   data: any[];
+  liveMarkets:any;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +30,10 @@ export class EventListComponent implements OnInit {
     this.data=[];
     this.eventType = this.betappService.getEventTypeById(this.id);
     // console.log(`GOT ID=${this.id}`);
+    this.betappService.getAllLiveMarkets().subscribe(markets => {
+      console.log(markets);
+      this.liveMarkets=markets;
+    })
     this.betappService.listCompetitionsByEventType(this.id).subscribe(x => {
       this.competitions = x;
       //this.data=x;
@@ -66,8 +71,18 @@ export class EventListComponent implements OnInit {
   getmarket(eid,i,j){
     if(this.data[i].event[j].market==undefined){
     this.betappService.listMarketsForEvent(eid).subscribe(z => {
+      z.forEach(element => {
+        var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
+        if(index<0){
+          element['live']=false;
+        }
+        else{
+        element['live']=true;
+        }
+      });
+      
       this.data[i]['event'][j]['market']=z;
-      console.log(this.data);
+      console.log(z);
     })
   }
     
