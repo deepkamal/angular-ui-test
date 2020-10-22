@@ -25,7 +25,7 @@ export class EventListComponent implements OnInit {
   ngOnInit(): any {
 
     this.id = this.route.snapshot.params.id;
-    alert(this.id);
+    
     this.data=[];
     this.eventType = this.betappService.getEventTypeById(this.id);
     // console.log(`GOT ID=${this.id}`);
