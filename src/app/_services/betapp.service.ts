@@ -282,9 +282,9 @@ export class BetappService {
   saveMarkets(): any {
     console.log("going to save markets", this.markets_to_remove, this.markets_to_add);
     var marketArray={};
-    marketArray['markettoAdd']=this.markets_to_add;
-    marketArray['marketstoSuspend']=this._markets_to_suspend;
-    marketArray['marketstoActivate']=this._markets_to_activate;
+    marketArray['marketsToAdd']=this.markets_to_add;
+    marketArray['marketsToSuspend']=this._markets_to_suspend;
+    marketArray['marketsToActivate']=this._markets_to_activate;
     console.log(marketArray);
     return this.http.post(
       "https://kxkn0cd8ti.execute-api.ap-south-1.amazonaws.com/v1/eventMarkets",
