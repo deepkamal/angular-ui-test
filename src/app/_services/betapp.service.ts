@@ -287,8 +287,8 @@ export class BetappService {
     marketArray['marketsToActivate']=this._markets_to_activate;
     console.log(marketArray);
     return this.http.post(
-      "https://kxkn0cd8ti.execute-api.ap-south-1.amazonaws.com/v1/eventMarkets",
-      Object.values(this.markets_to_add),
+      "https://kxkn0cd8ti.execute-api.ap-south-1.amazonaws.com/v2/eventMarkets",
+      marketArray,
       {headers: {"x-icloudex-iss": "OrgAdmin"}}).pipe().toPromise();
   }
 
