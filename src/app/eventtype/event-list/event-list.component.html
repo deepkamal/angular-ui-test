@@ -48,8 +48,8 @@
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
-                                      <a><i class="fas fa-toggle-on" (click)="activateMarket(aMarket.marketId)"></i></a>
-                                      <a><i class="fas fa-toggle-off" (click)="suspendMarket(aMarket.marketId)"></i></a>
+                                      <a (click)="activateMarket(aMarket.marketId)">Active</a>
+                                      <a (click)="suspendMarket(aMarket.marketId)">Suspend</a>
                                     </td>
                                 </tr>
                             </table>
