@@ -208,7 +208,10 @@ export class BetappService {
       marketName: aMarket.marketName,
       marketMatched: aMarket.totalMatched,
       "min_bet": 300,
-      "max_bet": 3000
+      "max_bet": 3000,
+      "market_live_after": (new Date()).getTime(),
+      "enabled": true,
+      "status":'active'
     };
 
     let key = eventMarketObj['eventId'] + "_" + eventMarketObj['marketId'];
@@ -243,6 +246,8 @@ export class BetappService {
     });
 
   }
+
+  
 
   disableMarket(marketId): any {
   }
@@ -287,9 +292,16 @@ export class BetappService {
     marketArray['marketsToActivate']=this._markets_to_activate;
     console.log(marketArray);
     return this.http.post(
-      "https://kxkn0cd8ti.execute-api.ap-south-1.amazonaws.com/v2/eventMarkets",
+      "https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/eventMarkets",
       marketArray,
       {headers: {"x-icloudex-iss": "OrgAdmin"}}).pipe().toPromise();
+  }
+
+  runMarketApi(element):any{
+    
+      return this.http.get<any>("http://cricflame.co.in/addMarketShaktiApi/"+element.marketId);
+    
+    
   }
 
   clearMarkets(): boolean {
