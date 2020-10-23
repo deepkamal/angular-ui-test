@@ -19,9 +19,11 @@ export class BetappService {
   private competitions: Observable<Competition[]>;
   private competitionSubject: BehaviorSubject<Competition[]>;
 
-  private live_markets: {};
+  private live_markets: any;
   private _markets_to_add: any;
   private _markets_to_remove: any;
+  private _markets_to_activate:any;
+  private _markets_to_suspend:any;
 
   constructor(
     private router: Router,
@@ -40,8 +42,11 @@ export class BetappService {
     this.competitions = this.competitionSubject.asObservable();
 
     this.live_markets = {};
-    this._markets_to_add = {};
-    this._markets_to_remove = {};
+    this._markets_to_add = [];
+    this._markets_to_remove = [];
+    this._markets_to_activate=[];
+    this._markets_to_suspend=[];
+
 
     this.loadLiveMarkets();
   }
@@ -223,7 +228,7 @@ export class BetappService {
       if (selected) {
         if (this.live_markets[key] === undefined) {
           console.log('Adding to enable list');
-          this._markets_to_add[key] = eventMarketObj;
+          this._markets_to_add.push(eventMarketObj);
         }
         delete this._markets_to_remove[key];
       } else {
@@ -234,7 +239,7 @@ export class BetappService {
         delete this._markets_to_add[key];
       }
 
-      // console.log(this._markets_to_remove, this._markets_to_add);
+       console.log(this._markets_to_add);
     });
 
   }
@@ -266,8 +271,21 @@ export class BetappService {
   disableEventType(eventTypeId): any {
   }
 
+  activateMarket(marketId){
+    this._markets_to_activate.push(marketId);
+  }
+
+  suspendMarket(marketId){
+    this._markets_to_suspend.push(marketId);
+  }
+
   saveMarkets(): any {
     console.log("going to save markets", this.markets_to_remove, this.markets_to_add);
+    var marketArray={};
+    marketArray['markettoAdd']=this.markets_to_add;
+    marketArray['marketstoSuspend']=this._markets_to_suspend;
+    marketArray['marketstoActivate']=this._markets_to_activate;
+    console.log(marketArray);
     return this.http.post(
       "https://kxkn0cd8ti.execute-api.ap-south-1.amazonaws.com/v1/eventMarkets",
       Object.values(this.markets_to_add),

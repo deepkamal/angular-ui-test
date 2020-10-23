@@ -92,6 +92,14 @@ export class EventListComponent implements OnInit {
     return this.betappService.enableMarket(eventType, aCompetition, anEvent, aMarket, selected);
   }
 
+  activateMarket(marketId){
+    return this.betappService.activateMarket(marketId);
+  }
+
+  suspendMarket(marketId){
+    return this.betappService.suspendMarket(marketId);
+  }
+
   saveMarkets(): any {
     return this.betappService.saveMarkets().then(resp=>{
       console.log("RESPONSE",resp);

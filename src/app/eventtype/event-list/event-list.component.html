@@ -40,12 +40,17 @@
                                     <th>Market Id</th>
                                     <th>Market Name</th>
                                     <th>Total matched</th>
+                                    <th></th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.market">
                                     <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="enableMarket(eventType,aCompetition.comp,item,aMarket,val.checked)"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
+                                    <td>
+                                      <a><i class="fas fa-toggle-on" (click)="activateMarket(aMarket.marketId)"></i></a>
+                                      <a><i class="fas fa-toggle-off" (click)="suspendMarket(aMarket.marketId)"></i></a>
+                                    </td>
                                 </tr>
                             </table>
                             
