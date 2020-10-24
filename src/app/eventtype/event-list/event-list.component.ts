@@ -16,6 +16,7 @@ export class EventListComponent implements OnInit {
   alldata: any;
   data: any[];
   liveMarkets:any;
+  showLoad:boolean=true;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +32,7 @@ export class EventListComponent implements OnInit {
     this.eventType = this.betappService.getEventTypeById(this.id);
     // console.log(`GOT ID=${this.id}`);
     this.betappService.getAllLiveMarkets().subscribe(markets => {
-      console.log(markets);
+      //console.log(markets);
       this.liveMarkets=markets;
     })
     this.betappService.listCompetitionsByEventType(this.id).subscribe(x => {
@@ -53,27 +54,30 @@ export class EventListComponent implements OnInit {
         //   });
           
           this.data.push(this.alldata);
+          this.showLoad=false;
       });
     //});
-      console.log(`Competitions GOT :::: `, this.data);
     });
     
   }
 
   getevent(cid,i){
     if(this.data[i].event==undefined){
+      this.showLoad=true;
     this.betappService.listEventsByCompetitionId(this.id,cid).subscribe(y => {
       y.sort((a, b) => {
         return <any>new Date(b.event.openDate) - <any>new Date(a.event.openDate);
       });
       this.data[i]['event']=y;
+      this.showLoad=false;
     })
   }
-  console.log(this.data[i]['event']);
+  // console.log(this.data[i]['event']);
   }
 
   getmarket(eid,i,j){
     if(this.data[i].event[j].market==undefined){
+      this.showLoad=true;
     this.betappService.listMarketsForEvent(eid).subscribe(z => {
       z.forEach(element => {
         var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
@@ -83,6 +87,7 @@ export class EventListComponent implements OnInit {
         else{
         element['live']=true;
         }
+        this.showLoad=false;
       });
       
       this.data[i]['event'][j]['market']=z;
@@ -105,12 +110,15 @@ export class EventListComponent implements OnInit {
   }
 
   saveMarkets(): any {
+    this.showLoad=true;
     return this.betappService.saveMarkets().then(resp=>{
-      console.log("RESPONSE",resp);
+      // console.log("RESPONSE",resp);
       //console.log(resp.add_result.result.markets_added);
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element);
+      this.showLoad=false;
       alert("Process completed");
+
       });
     })
   }

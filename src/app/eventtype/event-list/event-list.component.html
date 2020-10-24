@@ -68,5 +68,11 @@
     
   </div>
 
-  <button name="saveAll" (click)="saveMarkets()">-SAVE-</button>
-<button name="saveAll" (click)="clearMarkets()">-CLEAR ALL-</button>
+  <button class="btn btn-success float-right" name="saveAll" (click)="saveMarkets()">-SAVE-</button>
+<button class="btn btn-danger float-right" name="saveAll" (click)="clearMarkets()">-CLEAR ALL-</button>
+
+<div id="overlay" *ngIf="showLoad">
+  <div class="spinner"></div>
+  <br/>
+  Loading...
+</div>
