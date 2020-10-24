@@ -63,9 +63,13 @@ export class EventListComponent implements OnInit {
   getevent(cid,i){
     if(this.data[i].event==undefined){
     this.betappService.listEventsByCompetitionId(this.id,cid).subscribe(y => {
+      y.sort((a, b) => {
+        return <any>new Date(b.event.openDate) - <any>new Date(a.event.openDate);
+      });
       this.data[i]['event']=y;
     })
   }
+  console.log(this.data[i]['event']);
   }
 
   getmarket(eid,i,j){

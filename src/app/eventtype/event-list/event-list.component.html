@@ -36,11 +36,11 @@
                         <div>
                             <table class="table">
                                 <tr>
-                                    <th>Select</th>
+                                    <th>Add Market</th>
                                     <th>Market Id</th>
                                     <th>Market Name</th>
                                     <th>Total matched</th>
-                                    <th></th>
+                                    <th>Active/Suspend</th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.market">
                                     <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="enableMarket(eventType,aCompetition.comp,item,aMarket,val.checked)"></td>
