@@ -17,6 +17,8 @@ export class EventListComponent implements OnInit {
   data: any[];
   liveMarkets:any;
   showLoad:boolean=true;
+  activeButDisabed:boolean=false;
+  suspendButDisabed:boolean=false;
 
   constructor(
     private route: ActivatedRoute,

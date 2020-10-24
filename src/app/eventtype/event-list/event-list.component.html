@@ -48,8 +48,8 @@
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
-                                      <a class="btn btn-success" (click)="activateMarket(aMarket.marketId)">Active</a>
-                                      <a class="btn btn-danger" (click)="suspendMarket(aMarket.marketId)">Suspend</a>
+                                      <button class="btn btn-success" (click)="activateMarket(aMarket.marketId)">Active</button>
+                                      <button class="btn btn-danger" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
                                     </td>
                                 </tr>
                             </table>
@@ -67,9 +67,13 @@
     </div>
     
   </div>
-
-  <button class="btn btn-success float-right" name="saveAll" (click)="saveMarkets()">-SAVE-</button>
-<button class="btn btn-danger float-right" name="saveAll" (click)="clearMarkets()">-CLEAR ALL-</button>
+<div class="row">
+  <div class="col-md-12 actionbut">
+    <button class="btn btn-success float-right" name="saveAll" (click)="saveMarkets()">-SAVE-</button>
+    <button class="btn btn-danger float-right" name="saveAll" (click)="clearMarkets()">-CLEAR ALL-</button>
+  </div>
+</div>
+  
 
 <div id="overlay" *ngIf="showLoad">
   <div class="spinner"></div>
