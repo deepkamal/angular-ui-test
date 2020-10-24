@@ -290,7 +290,9 @@ export class BetappService {
     marketArray['marketsToAdd']=this.markets_to_add;
     marketArray['marketsToSuspend']=this._markets_to_suspend;
     marketArray['marketsToActivate']=this._markets_to_activate;
-    console.log(marketArray);
+    this.markets_to_add=[];
+    this._markets_to_suspend=[];
+    this._markets_to_activate=[];
     return this.http.post(
       "https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/eventMarkets",
       marketArray,

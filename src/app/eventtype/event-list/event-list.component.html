@@ -48,8 +48,8 @@
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
-                                      <a (click)="activateMarket(aMarket.marketId)">Active</a>
-                                      <a (click)="suspendMarket(aMarket.marketId)">Suspend</a>
+                                      <a class="btn btn-success" (click)="activateMarket(aMarket.marketId)">Active</a>
+                                      <a class="btn btn-danger" (click)="suspendMarket(aMarket.marketId)">Suspend</a>
                                     </td>
                                 </tr>
                             </table>

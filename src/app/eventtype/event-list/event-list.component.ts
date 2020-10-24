@@ -106,6 +106,7 @@ export class EventListComponent implements OnInit {
       //console.log(resp.add_result.result.markets_added);
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element);
+      alert("Process completed");
       });
     })
   }
