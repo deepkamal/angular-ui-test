@@ -118,7 +118,7 @@ export class EventListComponent implements OnInit {
       this.betappService.runMarketApi(element);
       this.showLoad=false;
       alert("Process completed");
-
+      window.location.href="/eventtype/eventlist/"+this.id;
       });
     })
   }
