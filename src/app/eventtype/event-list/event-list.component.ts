@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Competition, Event, EventType, Market} from '../../_models/events';
 import { BetappService } from '@app/_services';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-event-list',
@@ -23,7 +24,9 @@ export class EventListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private betappService: BetappService) {
+    private betappService: BetappService,
+    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document) {
   }
 
   ngOnInit(): any {
@@ -44,23 +47,22 @@ export class EventListComponent implements OnInit {
       x.forEach(element => {
         this.alldata={};
         this.alldata['comp']=element;
-        // this.betappService.listEventsByCompetitionId(this.id,element.competition.id).subscribe(y => {
-        // // betappService.listEventsByCompetitionId(id, aCompetition.competition.id)
-        //   this.alldata['comp']=element;
-        //   this.alldata['event']=y;
-        //   //betappService.listMarketsForEvent(item.event.id)
-        //   y.forEach(element1 => {
-        //     this.betappService.listMarketsForEvent(element1.event.id).subscribe(z => {
-        //       this.alldata['market']=z;
-        //     })
-        //   });
           
           this.data.push(this.alldata);
           this.showLoad=false;
       });
     //});
     });
-    
+    let script = this._renderer2.createElement("script");
+    script.type = `text/javascript`;
+    script.text = `
+    $(document).ready(function(){
+          $(document).on('click','.marketactionbtn',function() {
+            $(this).attr('disabled',true);
+        });
+        });
+`;
+    this._renderer2.appendChild(this._document.body, script);
   }
 
   getevent(cid,i){
