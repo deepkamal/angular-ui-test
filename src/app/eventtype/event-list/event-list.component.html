@@ -54,8 +54,8 @@
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
-                                      <button class="btn btn-success marketactionbtn" [disabled]="aMarket.active" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                      <button class="btn btn-danger marketactionbtn" [disabled]="!aMarket.live" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
+                                      <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
+                                      <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
                                     </td>
                                 </tr>
                             </table>

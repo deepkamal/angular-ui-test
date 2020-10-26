@@ -51,7 +51,7 @@ export class LiveEventsComponent implements OnInit {
   saveMarkets(): any {
     this.showLoad=true;
     return this.betappService.saveMarkets().then(resp=>{
-       console.log("RESPONSE",resp);
+      //  console.log("RESPONSE",resp);
       //console.log(resp.add_result.result.markets_added);
       if(resp.add_result.marketsToAdd!="nothing to add"){
       resp.add_result.result.markets_added.forEach(element => {

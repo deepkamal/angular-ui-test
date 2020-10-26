@@ -83,16 +83,17 @@ export class EventListComponent implements OnInit {
   getmarket(eid,i,j){
     if(this.data[i].event[j].market==undefined){
       this.showLoad=true;
+      
     this.betappService.listMarketsForEvent(eid).subscribe(z => {
       z.forEach(element => {
         var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
         if(index<0){
           element['live']=false;
-          element['active']=true;
+          element['active']=false;
         }
         else{
         element['live']=true;
-        element['active']=true;
+        element['active']= element['active']=this.liveMarkets[index].enabled;;
         }
         this.showLoad=false;
       });
@@ -120,8 +121,9 @@ export class EventListComponent implements OnInit {
     this.showLoad=true;
     var alertmsg="Below market successfully added\n\n";
     return this.betappService.saveMarkets().then(resp=>{
-       console.log("RESPONSE",resp.add_result.result.markets_added);
+      //  console.log("RESPONSE",resp.add_result.result.markets_added);
       //console.log(resp.add_result.result.markets_added);
+      if(resp.add_result.marketsToAdd!="nothing to add"){
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element);
       this.showLoad=false;
@@ -131,6 +133,11 @@ export class EventListComponent implements OnInit {
       //window.location.href="/eventtype/eventlist/"+this.id;
       });
       alert(alertmsg);
+    }
+    else{
+      alert("Process completed");
+    }
+      
       window.location.href="/eventtype/eventlist/"+this.id;
     })
   }
