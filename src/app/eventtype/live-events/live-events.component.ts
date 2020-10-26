@@ -12,6 +12,7 @@ export class LiveEventsComponent implements OnInit {
   liveMarkets: any;
   showLoad: boolean;
   id: string;
+  searchTerm:any="";
 
   constructor(
     private route: ActivatedRoute,
@@ -52,13 +53,19 @@ export class LiveEventsComponent implements OnInit {
     return this.betappService.saveMarkets().then(resp=>{
        console.log("RESPONSE",resp);
       //console.log(resp.add_result.result.markets_added);
+      if(resp.add_result.marketsToAdd!="nothing to add"){
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element);
       this.showLoad=false;
 
       alert("Process completed");
-      //window.location.href="/eventtype/eventlist/"+this.id;
+      window.location.href="/eventtype/liveevents";
       });
+    }
+    else{
+      alert("Process completed");
+      window.location.href="/eventtype/liveevents";
+    }
     })
   }
 

@@ -1,5 +1,6 @@
+import { FilterSearchPipe } from './../../pipes/filter-search.pipe';
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -13,13 +14,15 @@ import { LiveEventsComponent } from './live-events/live-events.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    EventTypesRoutingModule
+    EventTypesRoutingModule,
+    FormsModule
   ],
   declarations: [
     LayoutComponent,
     ListComponent,
     EventListComponent,
-    LiveEventsComponent
+    LiveEventsComponent,
+    FilterSearchPipe
   ]
 })
 export class EventTypesModule { }

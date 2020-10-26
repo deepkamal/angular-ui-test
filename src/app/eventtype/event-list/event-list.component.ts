@@ -20,6 +20,7 @@ export class EventListComponent implements OnInit {
   showLoad:boolean=true;
   activeButDisabed:boolean=false;
   suspendButDisabed:boolean=false;
+  searchTerm:any;
 
   constructor(
     private route: ActivatedRoute,

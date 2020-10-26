@@ -282,6 +282,7 @@ export class BetappService {
 
   suspendMarket(marketId){
     this._markets_to_suspend.push(marketId);
+    console.log(this._markets_to_suspend);
   }
 
   saveMarkets(): any {
@@ -290,6 +291,7 @@ export class BetappService {
     marketArray['marketsToAdd']=this.markets_to_add;
     marketArray['marketsToSuspend']=this._markets_to_suspend;
     marketArray['marketsToActivate']=this._markets_to_activate;
+    console.log(marketArray)
     this.markets_to_add=[];
     this._markets_to_suspend=[];
     this._markets_to_activate=[];

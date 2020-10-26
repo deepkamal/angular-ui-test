@@ -1,4 +1,11 @@
 <div class="card">
+    <div class="row m10">
+        <div class="col-md-12">
+            <label>Search by event name</label>
+            <input type="text" [(ngModel)]="searchTerm" class="form-control">
+        </div>
+    </div>
+    
 <div class="card-body">
   
                         <div>
@@ -10,14 +17,14 @@
                                     <th>Total matched</th>
                                     <th>Active/Suspend</th>
                                 </tr>
-                                <tr *ngFor="let aMarket of liveMarkets">
+                                <tr *ngFor="let aMarket of liveMarkets | filterSearch:searchTerm:'eventName'">
                                     <td>{{ aMarket.eventName }}</td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
-                                      <button class="btn btn-success marketactionbtn" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                      <button class="btn btn-danger marketactionbtn" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
+                                      <button class="btn btn-success marketactionbtn" [disabled]="aMarket.enabled" (click)="activateMarket(aMarket.marketId)">Active</button>
+                                      <button class="btn btn-danger marketactionbtn" [disabled]="!aMarket.enabled" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
                                     </td>
                                 </tr>
                             </table>
