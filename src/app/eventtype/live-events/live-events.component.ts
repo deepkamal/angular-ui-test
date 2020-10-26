@@ -23,9 +23,10 @@ export class LiveEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.betappService.getAllLiveMarkets().subscribe(markets => {
-      console.log(markets);
+      // console.log(markets);
       this.liveMarkets=markets;
     })
+    
     let script = this._renderer2.createElement("script");
     script.type = `text/javascript`;
     script.text = `
@@ -49,13 +50,14 @@ export class LiveEventsComponent implements OnInit {
   saveMarkets(): any {
     this.showLoad=true;
     return this.betappService.saveMarkets().then(resp=>{
-      // console.log("RESPONSE",resp);
+       console.log("RESPONSE",resp);
       //console.log(resp.add_result.result.markets_added);
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element);
       this.showLoad=false;
+
       alert("Process completed");
-      window.location.href="/eventtype/eventlist/"+this.id;
+      //window.location.href="/eventtype/eventlist/"+this.id;
       });
     })
   }

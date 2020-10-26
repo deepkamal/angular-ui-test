@@ -117,15 +117,20 @@ export class EventListComponent implements OnInit {
 
   saveMarkets(): any {
     this.showLoad=true;
+    var alertmsg="Below market successfully added\n\n";
     return this.betappService.saveMarkets().then(resp=>{
-      // console.log("RESPONSE",resp);
+       console.log("RESPONSE",resp.add_result.result.markets_added);
       //console.log(resp.add_result.result.markets_added);
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element);
       this.showLoad=false;
-      alert("Process completed");
-      window.location.href="/eventtype/eventlist/"+this.id;
+      
+      alertmsg +=element.eventName+"---"+element.marketName+"\n";
+      
+      //window.location.href="/eventtype/eventlist/"+this.id;
       });
+      alert(alertmsg);
+      window.location.href="/eventtype/eventlist/"+this.id;
     })
   }
 
