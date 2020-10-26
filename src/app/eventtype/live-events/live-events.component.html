@@ -1,0 +1,42 @@
+<div class="card">
+<div class="card-body">
+  
+                        <div>
+                            <table class="table">
+                                <tr>
+                                    <th>Add Market</th>
+                                    <th>Market Id</th>
+                                    <th>Market Name</th>
+                                    <th>Total matched</th>
+                                    <th>Active/Suspend</th>
+                                </tr>
+                                <tr *ngFor="let aMarket of liveMarkets">
+                                    <td>{{ aMarket.eventName }}</td>
+                                    <td>{{aMarket.marketId}}</td>
+                                    <td>{{aMarket.marketName}}</td>
+                                    <td>{{aMarket.totalMatched}}</td>
+                                    <td>
+                                      <button class="btn btn-success marketactionbtn" (click)="activateMarket(aMarket.marketId)">Active</button>
+                                      <button class="btn btn-danger marketactionbtn" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                          </div>
+  
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 actionbut">
+                  <button class="btn btn-success float-right" name="saveAll" (click)="saveMarkets()">-SAVE-</button>
+                  <button class="btn btn-danger float-right" name="saveAll" (click)="clearMarkets()">-CLEAR ALL-</button>
+                </div>
+              </div>
+                
+              
+              <div id="overlay" *ngIf="showLoad">
+                <div class="spinner"></div>
+                <br/>
+                Loading...
+              </div>

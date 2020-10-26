@@ -76,7 +76,7 @@ export class EventListComponent implements OnInit {
       this.showLoad=false;
     })
   }
-  // console.log(this.data[i]['event']);
+  console.log(this.data[i]['event']);
   }
 
   getmarket(eid,i,j){
@@ -87,9 +87,11 @@ export class EventListComponent implements OnInit {
         var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
         if(index<0){
           element['live']=false;
+          element['active']=true;
         }
         else{
         element['live']=true;
+        element['active']=true;
         }
         this.showLoad=false;
       });

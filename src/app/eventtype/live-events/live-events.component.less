@@ -1,0 +1,63 @@
+.col-md-3{
+    font-size: 15px;
+}
+.fas{
+    margin:0px 5px;
+}
+.btn{
+    padding: 10px;
+    margin-left: 5px;
+}
+
+#overlay {
+    background: #000000;
+    color: #666666;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    z-index: 5000;
+    display: flex;
+    top: 0;
+    left: 0;
+    text-align: center;
+    opacity: 0.5;
+  }
+  button {
+    // margin: 40px;
+    padding: 5px 20px;
+    cursor: pointer;
+  }
+  .spinner {
+    margin: 0 auto;
+    height: 64px;
+    width: 64px;
+    align-self: center;
+    -webkit-animation: rotate 0.8s infinite linear;
+    animation: rotate 0.8s infinite linear;
+    border: 5px solid #ffffff;
+    border-right-color: transparent;
+    border-radius: 50%;
+  }
+  @keyframes rotate {
+      0% {
+          transform: rotate(0deg);
+      }
+      100% {
+          transform: rotate(360deg);
+      }
+  }
+  .actionbut{
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+  }
+  #accordion{
+    margin-bottom: 60px !important;
+  }
+
+  button:disabled{
+    background-color: gray !important;
+    color: #000;
+  }

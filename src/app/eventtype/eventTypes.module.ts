@@ -7,6 +7,7 @@ import {LayoutComponent} from './layout.component';
 import {ListComponent} from './list.component';
 import {EventTypesRoutingModule} from './eventTypes-routing.module';
 import { EventListComponent } from './event-list/event-list.component';
+import { LiveEventsComponent } from './live-events/live-events.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { EventListComponent } from './event-list/event-list.component';
   declarations: [
     LayoutComponent,
     ListComponent,
-    EventListComponent
+    EventListComponent,
+    LiveEventsComponent
   ]
 })
 export class EventTypesModule { }
