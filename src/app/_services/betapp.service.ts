@@ -207,9 +207,9 @@ export class BetappService {
       marketId: aMarket.marketId,
       marketName: aMarket.marketName,
       marketMatched: aMarket.totalMatched,
-      "min_bet": 300,
-      "max_bet": 3000,
-      "market_live_after": (new Date()).getTime(),
+      "min_bet": anEvent.min,
+      "max_bet": anEvent.max,
+      "market_live_after": anEvent.sDate,
       "enabled": true,
       "status":'active'
     };

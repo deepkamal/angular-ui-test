@@ -25,7 +25,7 @@
               <button class="btn btn-danger marketactionbtn" [disabled]="!aMarket.enabled" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
             <div class="toggle-button">
               <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" [checked]="aMarket.enabled" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
                 <span class="slider round"></span>
               </label>
             </div>

@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Competition, Event, EventType, Market} from '../../_models/events';
 import { BetappService } from '@app/_services';
 import { DOCUMENT } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-event-list',
@@ -11,6 +12,7 @@ import { DOCUMENT } from '@angular/common';
 })
 export class EventListComponent implements OnInit {
 
+  marketForm: FormGroup;
   competitions: Competition[];
   eventType: EventType;
   id: number;
@@ -25,13 +27,26 @@ export class EventListComponent implements OnInit {
   MaxBetAmount:any;
   ScheduledLiveTime:any;
   ScheduledCloseTime:any;
+  eventTypeData: EventType;
+  aCompetitionData: Competition;
+  anEventData: Event;
+  aMarketData: Market;
+  selected: boolean;
+  @ViewChild('closebutton') closebutton;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private betappService: BetappService,
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document) {
+      this.marketForm = this.fb.group({
+        min: ["", Validators.required],
+        max: ["", Validators.required],
+        sDate: ["", Validators.required],
+        eDate: ["", Validators.required],
+      });
   }
 
   ngOnInit(): any {
@@ -109,8 +124,31 @@ export class EventListComponent implements OnInit {
     
   }
 
-  enableMarket(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean): any {
-    return this.betappService.enableMarket(eventType, aCompetition, anEvent, aMarket, selected);
+  toggleMarket(marketId,event,a){
+    // console.log(event);
+    if(event.target.checked){
+      this.activateMarket(marketId);
+    }
+    else{
+      this.suspendMarket(marketId);
+    }
+  }
+
+  openLiveMarketModel(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean){
+    this.eventTypeData=eventType;
+    this.aCompetitionData=aCompetition;
+    this.anEventData=anEvent;
+    this.aMarketData=aMarket;
+    this.selected=selected;
+  }
+
+  enableMarket(): any {
+    this.anEventData['min']=this.marketForm.value.min;
+    this.anEventData['max']=this.marketForm.value.max;
+    this.anEventData['sDate']=this.marketForm.value.sDate;
+    this.anEventData['eDate']=this.marketForm.value.eDate;
+    this.closebutton.nativeElement.click();
+    return this.betappService.enableMarket(this.eventTypeData, this.aCompetitionData, this.anEventData, this.aMarketData, this.selected);
   }
 
   activateMarket(marketId){

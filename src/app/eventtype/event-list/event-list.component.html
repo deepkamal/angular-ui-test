@@ -49,13 +49,19 @@
                                     <th>Active/Suspend</th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.market">
-                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="enableMarket(eventType,aCompetition.comp,item,aMarket,val.checked)" data-toggle="modal" data-target="#exampleModal"></td>
+                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked)" data-toggle="modal" data-target="#exampleModal"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
-                                      <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                      <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
+                                      <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
+                                      <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
+                                      <div class="toggle-button">
+                                        <label class="switch">
+                                          <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
+                                          <span class="slider round"></span>
+                                        </label>
+                                      </div>
                                     </td>
                                 </tr>
                             </table>
@@ -90,27 +96,27 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
+  <form  action="" method="post" [formGroup]="marketForm" (ngSubmit)="enableMarket()">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Market</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form>
           <div class="row">
             <div class="col">
               <div class="form-group">
                 <label for="MinBetAmount">Min bet amount</label>
-                <input type="number" class="form-control" id="MinBetAmount" placeholder="" ngModel="MinBetAmount">
+                <input type="number" class="form-control" formControlName="min" id="MinBetAmount" placeholder="" ([ngModel])="MinBetAmount">
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label for="MaxBetAmount">Max bet amount</label>
-                <input type="number" class="form-control" id="MaxBetAmount" placeholder="" ngModel="MaxBetAmount">
+                <input type="number" class="form-control" id="MaxBetAmount" formControlName="max" placeholder="" ([ngModel])="MaxBetAmount">
               </div>
             </div>
           </div>
@@ -118,24 +124,24 @@
             <div class="col">
               <div class="form-group">
                 <label for="ScheduledLiveTime">Scheduled live time</label>
-                <input type="date" class="form-control" id="ScheduledLiveTime" placeholder="" ngModel="ScheduledLiveTime">
+                <input type="date" class="form-control" id="ScheduledLiveTime" placeholder="" formControlName="sDate">
                 <small id="ScheduledLiveTime" class="form-text text-muted">{{ScheduledLiveTime}}</small>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label for="ScheduledCloseTime">Scheduled close time</label>
-                <input type="date" class="form-control" id="ScheduledCloseTime" placeholder="" ngModel="ScheduledCloseTime">
+                <input type="date" class="form-control" id="ScheduledCloseTime" placeholder="" formControlName="eDate">
                 <small id="ScheduledCloseTime" class="form-text text-muted">{{ScheduledCloseTime}}</small>
               </div>
             </div>
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>
+</form>
 </div>

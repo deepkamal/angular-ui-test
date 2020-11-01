@@ -46,6 +46,16 @@ export class LiveEventsComponent implements OnInit {
     this._renderer2.appendChild(this._document.body, script);
   }
 
+  toggleMarket(marketId,event,a){
+    // alert(a);
+    if(event.target.checked){
+      this.activateMarket(marketId);
+    }
+    else{
+      this.suspendMarket(marketId);
+    }
+  }
+
   activateMarket(marketId){
     return this.betappService.activateMarket(marketId);
   }
