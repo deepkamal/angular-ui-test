@@ -1,49 +1,84 @@
 <div class="card">
-    <div class="row m10">
-        <div class="col-md-12">
-            <label>Search by event name</label>
-            <input type="text" [(ngModel)]="searchTerm" class="form-control">
-        </div>
+  <div class="row m10">
+    <div class="col-md-12">
+      <label>Search by event name</label>
+      <input type="text" [(ngModel)]="searchTerm" class="form-control">
     </div>
-    
-<div class="card-body">
-  
-                        <div>
-                            <table class="table">
-                                <tr>
-                                    <th>Add Market</th>
-                                    <th>Market Id</th>
-                                    <th>Market Name</th>
-                                    <th>Date</th>
-                                    <th>Active/Suspend</th>
-                                </tr>
-                                <tr *ngFor="let aMarket of liveMarkets | filterSearch:searchTerm:'eventName'">
-                                    <td>{{ aMarket.eventName }}</td>
-                                    <td>{{aMarket.marketId}}</td>
-                                    <td>{{aMarket.marketName}}</td>
-                                    <td>{{aMarket.eventOpenDate | date:'medium'}}</td>
-                                    <td>
-                                      <button class="btn btn-success marketactionbtn" [disabled]="aMarket.enabled" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                      <button class="btn btn-danger marketactionbtn" [disabled]="!aMarket.enabled" (click)="suspendMarket(aMarket.marketId)">Suspend</button>
-                                    </td>
-                                </tr>
-                            </table>
-                            
-                          </div>
-  
-                </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th>Add Market</th>
+          <th>Market Id</th>
+          <th>Market Name</th>
+          <th>Date</th>
+          <th>Active/Suspend</th>
+        </tr>
+        <tr *ngFor="let aMarket of liveMarkets | filterSearch:searchTerm:'eventName'">
+          <td>{{ aMarket.eventName }}</td>
+          <td>{{aMarket.marketId}}</td>
+          <td>{{aMarket.marketName}}</td>
+          <td>{{aMarket.eventOpenDate | date:'medium'}}</td>
+          <td>
+            <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.enabled" (click)="activateMarket(aMarket.marketId)">Active</button>
+              <button class="btn btn-danger marketactionbtn" [disabled]="!aMarket.enabled" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
+            <div class="toggle-button">
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
             </div>
+            <div class="dropdown float-right">
+              <i class="fa fa-cog pointer" aria-hidden="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item text-right"><i class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i></a>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 actionbut">
+    <button class="btn btn-primary float-right" name="saveAll" (click)="saveMarkets()">SAVE</button>
+    <button class="btn btn-default float-right" name="saveAll" (click)="clearMarkets()">CLEAR ALL</button>
+  </div>
+</div>
+<div id="overlay" *ngIf="showLoad">
+  <div class="spinner"></div>
+  <br />
+  Loading...
+</div>
 
-            <div class="row">
-                <div class="col-md-12 actionbut">
-                  <button class="btn btn-success float-right" name="saveAll" (click)="saveMarkets()">-SAVE-</button>
-                  <button class="btn btn-danger float-right" name="saveAll" (click)="clearMarkets()">-CLEAR ALL-</button>
-                </div>
-              </div>
-                
-              
-              <div id="overlay" *ngIf="showLoad">
-                <div class="spinner"></div>
-                <br/>
-                Loading...
-              </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Heading</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><span (click)="clickVisible()" class="name">example</span><span class="ml10" *ngIf="showName"><input type="checkbox"></span></li>
+          <li class="list-group-item">example</li>
+          <li class="list-group-item">example</li>
+          <li class="list-group-item">example</li>
+          <li class="list-group-item">example</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

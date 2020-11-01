@@ -2,9 +2,8 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/" routerLinkActive="active"
-       [routerLinkActiveOptions]="{exact: true}">Home</a>
+      [routerLinkActiveOptions]="{exact: true}">Home</a>
     <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a>
-
     <a class="nav-item nav-link" (click)="logout()">Logout</a>
   </div>
 </nav>
@@ -12,24 +11,41 @@
 <!-- main app container -->
 <div class="app-container" [ngClass]="{ 'bg-light': user }">
   <alert></alert>
-  <ng-template ngFor let-aEventType [ngForOf]="eventTypes">
-    <div class="float-left side-bar">
-      <a
-         href="/eventtype/eventlist/{{aEventType.eventType.id}}"
-         class="nav-item nav-link"
-         routerLinkActive="active" *ngIf="aEventType.eventType.id==4||aEventType.eventType.id==2||aEventType.eventType.id==1">
-        {{aEventType.eventType.name}}({{aEventType.marketCount}})
-      </a>
-
-</div>
-
-  </ng-template>
-  <a href="eventtype/liveevents/" style="float: left; margin-top: 10px;">
-    Live Markets
-  </a>
-  <br/>
-
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <!-- <a class="navbar-brand" href="#">Logo goes here</a> -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <ng-template ngFor let-aEventType [ngForOf]="eventTypes">
+            <li class="nav-item">
+              <a class="nav-link" href="/eventtype/eventlist/{{aEventType.eventType.id}}" routerLinkActive="active"
+                *ngIf="aEventType.eventType.id==4||aEventType.eventType.id==2||aEventType.eventType.id==1">
+                {{aEventType.eventType.name}}<span class="event-count">({{aEventType.marketCount}})</span>
+              </a>
+            </li>
+          </ng-template>
+          <li class="nav-item">
+            <a class="nav-link" href="/eventtype/liveevents/">Live Markets</a>
+          </li>
+          <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br />
   <router-outlet></router-outlet>
-
 </div>
-

@@ -14,6 +14,12 @@ export class LiveEventsComponent implements OnInit {
   id: string;
   searchTerm:any="";
 
+  showName:boolean;
+
+  clickVisible(){
+    this.showName = !this.showName;
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -71,6 +77,5 @@ export class LiveEventsComponent implements OnInit {
 
   clearMarkets(): any {
     return console.log(this.betappService.clearMarkets());
-  }
-
+  }  
 }

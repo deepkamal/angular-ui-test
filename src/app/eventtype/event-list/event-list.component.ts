@@ -21,6 +21,10 @@ export class EventListComponent implements OnInit {
   activeButDisabed:boolean=false;
   suspendButDisabed:boolean=false;
   searchTerm:any;
+  MinBetAmount:any;
+  MaxBetAmount:any;
+  ScheduledLiveTime:any;
+  ScheduledCloseTime:any;
 
   constructor(
     private route: ActivatedRoute,
