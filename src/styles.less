@@ -7,6 +7,57 @@ a {cursor:pointer;color:inherit; text-decoration:none; }
 .main-container{margin-top: 30px;margin-bottom: 40px;}
 .pointer{cursor: pointer;}
 .card{border-radius: 0;}
+.maxWidth{
+    max-width:200px;
+    display:table;
+    padding:10px 15px;
+}
+.notification{
+    li{list-style-type: none;}
+    i.notification-icon{
+        @media(max-width:767px){position: fixed;right: 20px;top: 17px;}
+    }
+    .notification-dropdown{
+        right: 10px;
+        left: auto;
+        top: 40px;
+        padding-top: 0;
+        
+        &:after {
+            bottom: 100%;
+            right: 0;
+            border: solid thin #212121;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        &:before {
+            bottom: 100%;
+            right: 0;
+            border: 1px solid rgba(0,0,0,.5);
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        &:after {
+            border-color: rgba(238, 238, 238, 0);
+            border-bottom-color: #212121;
+            border-width: 15px;
+            margin-left: -15px;
+        }
+        &:before {
+            border-color: rgba(204, 204, 204, 0);
+            border-bottom-color:rgba(0,0,0,.5);
+            border-width: 16px;
+            margin-left: -16px;
+        }
+    }
+    .badge-light {border-radius: 100%;}
+}
 .navbar.navbar-light .breadcrumb .nav-item .nav-link:hover, .navbar.navbar-light .navbar-nav .nav-item .nav-link:hover {color: rgba(0,0,0,0.7);box-shadow: 0px 1px 0px #333;}
 .card{
     &:nth-child(odd){
@@ -18,5 +69,13 @@ a {cursor:pointer;color:inherit; text-decoration:none; }
         .card-header{
             background-color: #ffffff;
         }
+    }
+}
+@media (max-width:1024px){
+    span.badge.badge-light {
+        z-index: 999;
+        position: fixed;
+        top: 7px;
+        right: 12px;
     }
 }
