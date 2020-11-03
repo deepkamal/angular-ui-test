@@ -47,33 +47,15 @@
       <ul class="notification form-inline my-2 my-lg-0">
         <li>
           <div class="dropdown">
-            <i class="fa fa-bell notification-icon pointer" aria-hidden="true" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false"></i> <span class="badge badge-light">4</span>         
+            <i class="fa fa-bell notification-icon pointer" aria-hidden="true" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false"></i> <span class="badge badge-light">{{ Notifications.length }}</span>         
             <div class="dropdown-menu dropdown-menu-lg-right notification-dropdown" aria-labelledby="dropdownMenuNotification">
-              <li class="dropdown-item maxWidth bg-dark text-light">Notification</li>
-              <li class="dropdown-item maxWidth">
+              <li class="dropdown-item bg-dark text-light">Notification</li>
+              <li class="dropdown-item maxWidth" *ngFor="let notification of Notifications">
                 <div class="media">
                   <img src="/assets/user.png" width="50" class="mr-3" alt="...">
                   <div class="media-body">
-                    <h6 class="mt-0">Media heading</h6>                    
-                    <p class="small">30 Sec ago</p>
-                  </div>
-                </div>
-              </li>
-              <li class="dropdown-item maxWidth">
-                <div class="media">
-                  <img src="/assets/user.png" width="50" class="mr-3" alt="...">
-                  <div class="media-body">
-                    <h6 class="mt-0">Media heading</h6>                    
-                    <p class="small">30 Sec ago</p>
-                  </div>
-                </div>
-              </li>
-              <li class="dropdown-item maxWidth">
-                <div class="media">
-                  <img src="/assets/user.png" width="50" class="mr-3" alt="...">
-                  <div class="media-body">
-                    <h6 class="mt-0">Media heading</h6>                    
-                    <p class="small">30 Sec ago</p>
+                    <h6 class="mt-0">{{ notification.eventName }}</h6>                    
+                    <p class="small">{{ notification.eventOpenDate | date:"medium" }}</p>
                   </div>
                 </div>
               </li>

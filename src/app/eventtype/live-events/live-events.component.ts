@@ -30,7 +30,7 @@ export class LiveEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.betappService.getAllLiveMarkets().subscribe(markets => {
-      //  console.log(markets);
+       console.log(markets);
       this.liveMarkets=markets;
     })
     

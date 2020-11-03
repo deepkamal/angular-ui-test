@@ -32,6 +32,7 @@ export class EventListComponent implements OnInit {
   anEventData: Event;
   aMarketData: Market;
   selected: boolean;
+  marketAdded:any;
   @ViewChild('closebutton') closebutton;
 
   constructor(
@@ -96,7 +97,7 @@ export class EventListComponent implements OnInit {
       this.showLoad=false;
     })
   }
-  console.log(this.data[i]['event']);
+  // console.log(this.data[i]['event']);
   }
 
   getmarket(eid,i,j){
@@ -163,16 +164,18 @@ export class EventListComponent implements OnInit {
     this.showLoad=true;
     var alertmsg="Below market successfully added\n\n";
     return this.betappService.saveMarkets().then(resp=>{
-      //  console.log("RESPONSE",resp.add_result.result.markets_added);
+       // console.log("RESPONSE",resp.add_result.result.markets_added);
       //console.log(resp.add_result.result.markets_added);
       if(resp.add_result.marketsToAdd!="nothing to add"){
+        this.marketAdded=resp.add_result.result.markets_added;
+        localStorage.setItem("Notifications",JSON.stringify(this.marketAdded));
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element);
       this.showLoad=false;
       
       alertmsg +=element.eventName+"---"+element.marketName+"\n";
       
-      //window.location.href="/eventtype/eventlist/"+this.id;
+      window.location.href="/eventtype/eventlist/"+this.id;
       });
       alert(alertmsg);
     }
@@ -180,7 +183,7 @@ export class EventListComponent implements OnInit {
       alert("Process completed");
     }
       
-      window.location.href="/eventtype/eventlist/"+this.id;
+      //window.location.href="/eventtype/eventlist/"+this.id;
     })
   }
 
