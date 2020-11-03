@@ -14,11 +14,11 @@ export class LiveEventsComponent implements OnInit {
   id: string;
   searchTerm:any="";
 
-  showName:boolean;
+  //showName:boolean;
 
-  clickVisible(){
-    this.showName = !this.showName;
-  }
+  // clickVisible(){
+  //   this.showName = !this.showName;
+  // }
 
   constructor(
     private route: ActivatedRoute,
