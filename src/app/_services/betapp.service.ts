@@ -315,8 +315,7 @@ export class BetappService {
       {headers: {"x-icloudex-iss": "OrgAdmin"}}).pipe().toPromise();
   }
 
-  runMarketApi(element):any{
-    
+  runMarketApi(element): Observable<any> {
       return this.http.get<any>("http://cricflame.co.in/addMarketShaktiApi/"+element.marketId);
     
     

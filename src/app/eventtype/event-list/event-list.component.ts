@@ -170,12 +170,13 @@ export class EventListComponent implements OnInit {
         this.marketAdded=resp.add_result.result.markets_added;
         localStorage.setItem("Notifications",JSON.stringify(this.marketAdded));
       resp.add_result.result.markets_added.forEach(element => {
-      this.betappService.runMarketApi(element);
-      this.showLoad=false;
+      this.betappService.runMarketApi(element).subscribe(z => {
+      //this.showLoad=false;
+      setTimeout(function(){ window.location.href="/eventtype/eventlist/"+this.id; }, 3000);
       
+      });
       alertmsg +=element.eventName+"---"+element.marketName+"\n";
       
-      window.location.href="/eventtype/eventlist/"+this.id;
       });
       alert(alertmsg);
     }
