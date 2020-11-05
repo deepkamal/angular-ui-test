@@ -13,6 +13,7 @@ export class LiveEventsComponent implements OnInit {
   showLoad: boolean;
   id: string;
   searchTerm:any="";
+  liveMarketRunner: any=[];
 
   //showName:boolean;
 
@@ -29,8 +30,9 @@ export class LiveEventsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.showLoad=true;
     this.betappService.getAllLiveMarkets().subscribe(markets => {
-       console.log(markets);
+      this.showLoad=false;
       this.liveMarkets=markets;
     })
     
@@ -54,6 +56,35 @@ export class LiveEventsComponent implements OnInit {
     else{
       this.suspendMarket(marketId);
     }
+  }
+
+  getRunnerList(marketId){
+    this.showLoad=true;
+    this.betappService.getRunnerListByMarket(marketId).subscribe(runner => {
+      //console.log(runner);
+      this.showLoad=false;
+     this.liveMarketRunner=runner;
+   })
+  }
+
+  declareMarket(marketId,selectionId){
+    var details={};
+    this.showLoad=true;
+    details['marketId']=marketId;
+    details['selectionId']=selectionId;
+    details['outcomeTS']=new Date().getTime();
+    details['outcome_message']="Test msg";
+    this.betappService.declareMarket(details).subscribe(runner => {
+      if(runner.result.success){
+        alert("Market close successfully");
+        window.location.href="/orgadmin/eventtype/liveevents";
+      }
+      else{
+        alert(runner.err.error);
+      }
+     
+    //  this.liveMarketRunner=runner;
+   })
   }
 
   activateMarket(marketId){
