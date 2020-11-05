@@ -105,6 +105,7 @@ export class EventListComponent implements OnInit {
       this.showLoad=true;
       
     this.betappService.listMarketsForEvent(eid).subscribe(z => {
+      console.log(this.liveMarkets);
       z.forEach(element => {
         var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
         if(index<0){
@@ -172,13 +173,15 @@ export class EventListComponent implements OnInit {
       resp.add_result.result.markets_added.forEach(element => {
       this.betappService.runMarketApi(element).subscribe(z => {
       //this.showLoad=false;
-      setTimeout(function(){ window.location.href="/eventtype/eventlist/"+this.id; }, 3000);
+      
       
       });
       alertmsg +=element.eventName+"---"+element.marketName+"\n";
       
       });
+      var eid=this.id;
       alert(alertmsg);
+      setTimeout(function(){ window.location.href="/eventtype/eventlist/"+eid; }, 3000);
     }
     else{
       alert("Process completed");
