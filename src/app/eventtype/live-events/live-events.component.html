@@ -66,13 +66,16 @@
       </div>
       <div class="modal-body">
         <ul class="list-group list-group-flush" *ngIf="liveMarketRunner.length>0">
-          <li *ngFor="let runner of liveMarketRunner[0].runners" (click)="declareMarket(liveMarketRunner[0].marketId,runner.selectionId)" class="list-group-item">{{ runner.runnerName }}<span class="float-right"><i class="fa fa-check" aria-hidden="true"></i></span></li>          
+          <li *ngFor="let runner of liveMarketRunner[0].runners" (click)="declareMarket(liveMarketRunner[0].marketId,runner.selectionId)" class="list-group-item marketcloseListItem">{{ runner.runnerName }}<span class="float-right"><i class="fa fa-check" aria-hidden="true"></i></span></li>          
           <!-- <li class="list-group-item">lose<span class="float-right"><i class="fa fa-thumbs-down" aria-hidden="true"></i></span></li>       -->
         </ul>
+        <div class="msg">
+          <textarea [(ngModel)]="closeMsg" class="form-control"></textarea>
+        </div>
       </div>
       <div class="modal-footer">
-        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button> -->
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="declareSubmit()">Save</button>
       </div>
     </div>
   </div>

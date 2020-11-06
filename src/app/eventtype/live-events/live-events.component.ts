@@ -14,6 +14,8 @@ export class LiveEventsComponent implements OnInit {
   id: string;
   searchTerm:any="";
   liveMarketRunner: any=[];
+  closeMsg:string;
+  details: any={};
 
   //showName:boolean;
 
@@ -43,6 +45,10 @@ export class LiveEventsComponent implements OnInit {
           $(document).on('click','.marketactionbtn',function() {
             $(this).attr('disabled',true);
         });
+        $(document).on('click','.marketcloseListItem',function() {
+          $(".marketcloseListItem").find("span").hide();
+          $(this).find("span").show();
+      });
         });
 `;
     this._renderer2.appendChild(this._document.body, script);
@@ -68,13 +74,19 @@ export class LiveEventsComponent implements OnInit {
   }
 
   declareMarket(marketId,selectionId){
-    var details={};
+    
+    this.details['marketId']=marketId;
+    this.details['selectionId']=selectionId;
+    this.details['outcomeTS']=new Date().getTime();
+    
+    
+  }
+
+  declareSubmit(){
+    this.details['outcome_message']=this.closeMsg;
+   // console.log(this.details);
     this.showLoad=true;
-    details['marketId']=marketId;
-    details['selectionId']=selectionId;
-    details['outcomeTS']=new Date().getTime();
-    details['outcome_message']="Test msg";
-    this.betappService.declareMarket(details).subscribe(runner => {
+    this.betappService.declareMarket(this.details).subscribe(runner => {
       if(runner.result.success){
         alert("Market close successfully");
         window.location.href="/orgadmin/eventtype/liveevents";

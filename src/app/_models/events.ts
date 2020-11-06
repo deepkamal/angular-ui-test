@@ -26,8 +26,8 @@ export class Event {
   marketCount: number;
   min:number;
   max:number;
-  sDate:Date;
-  eDate:Date;
+  sDate:any;
+  eDate:any;
 }
 
 export class Market {

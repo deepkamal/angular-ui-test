@@ -147,8 +147,8 @@ export class EventListComponent implements OnInit {
   enableMarket(): any {
     this.anEventData['min']=this.marketForm.value.min;
     this.anEventData['max']=this.marketForm.value.max;
-    this.anEventData['sDate']=this.marketForm.value.sDate;
-    this.anEventData['eDate']=this.marketForm.value.eDate;
+    this.anEventData['sDate']=new Date(this.marketForm.value.sDate).getTime();
+    this.anEventData['eDate']=new Date(this.marketForm.value.eDate).getTime();
     this.closebutton.nativeElement.click();
     return this.betappService.enableMarket(this.eventTypeData, this.aCompetitionData, this.anEventData, this.aMarketData, this.selected);
   }
@@ -180,7 +180,7 @@ export class EventListComponent implements OnInit {
       
       });
       var eid=this.id;
-      alert(alertmsg);
+      // alert(alertmsg);
       setTimeout(function(){ window.location.href="/eventtype/eventlist/"+eid; }, 3000);
     }
     else{
