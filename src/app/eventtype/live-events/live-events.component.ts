@@ -16,6 +16,7 @@ export class LiveEventsComponent implements OnInit {
   liveMarketRunner: any=[];
   closeMsg:string;
   details: any={};
+  runnermarketId: any;
 
   //showName:boolean;
 
@@ -36,6 +37,7 @@ export class LiveEventsComponent implements OnInit {
     this.betappService.getAllLiveMarkets().subscribe(markets => {
       this.showLoad=false;
       this.liveMarkets=markets;
+      // console.log(this.liveMarkets);
     })
     
     let script = this._renderer2.createElement("script");
@@ -64,13 +66,14 @@ export class LiveEventsComponent implements OnInit {
     }
   }
 
-  getRunnerList(marketId){
-    this.showLoad=true;
-    this.betappService.getRunnerListByMarket(marketId).subscribe(runner => {
-      //console.log(runner);
-      this.showLoad=false;
-     this.liveMarketRunner=runner;
-   })
+  getRunnerList(selection,marketId){
+   // this.showLoad=true;
+    // this.betappService.getRunnerListByMarket(marketId).subscribe(runner => {
+    //   //console.log(runner);
+    //   this.showLoad=false;
+     this.liveMarketRunner=selection;
+     this.runnermarketId=marketId;
+  //  })
   }
 
   declareMarket(marketId,selectionId){
@@ -84,12 +87,13 @@ export class LiveEventsComponent implements OnInit {
 
   declareSubmit(){
     this.details['outcome_message']=this.closeMsg;
-   // console.log(this.details);
+    //console.log(this.details);
     this.showLoad=true;
     this.betappService.declareMarket(this.details).subscribe(runner => {
       if(runner.result.success){
         alert("Market close successfully");
         window.location.href="/orgadmin/eventtype/liveevents";
+        this.closeMsg="";
       }
       else{
         alert(runner.err.error);
