@@ -182,7 +182,7 @@ export class EventListComponent implements OnInit {
       });
       var eid=this.id;
        alert(alertmsg);
-      setTimeout(function(){ window.location.href="/eventtype/eventlist/"+eid; }, 3000);
+      setTimeout(function(){ window.location.href="eventtype/eventlist/"+eid; }, 3000);
     }
     else{
       alert("Process completed");

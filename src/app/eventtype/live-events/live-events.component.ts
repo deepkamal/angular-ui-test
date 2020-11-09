@@ -122,12 +122,12 @@ export class LiveEventsComponent implements OnInit {
       this.showLoad=false;
 
       alert("Process completed");
-      window.location.href="/eventtype/liveevents";
+      window.location.href="eventtype/liveevents";
       });
     }
     else{
       alert("Process completed");
-      window.location.href="/eventtype/liveevents";
+      window.location.href="eventtype/liveevents";
     }
     })
   }
