@@ -13,6 +13,10 @@ export class LiveEventsComponent implements OnInit {
   showLoad: boolean;
   id: string;
   searchTerm:any="";
+  liveMarketRunner: any=[];
+  closeMsg:string;
+  details: any={};
+  runnermarketId: any;
 
   //showName:boolean;
 
@@ -29,9 +33,11 @@ export class LiveEventsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.showLoad=true;
     this.betappService.getAllLiveMarkets().subscribe(markets => {
-      //  console.log(markets);
+      this.showLoad=false;
       this.liveMarkets=markets;
+      // console.log(this.liveMarkets);
     })
     
     let script = this._renderer2.createElement("script");
@@ -41,9 +47,60 @@ export class LiveEventsComponent implements OnInit {
           $(document).on('click','.marketactionbtn',function() {
             $(this).attr('disabled',true);
         });
+        $(document).on('click','.marketcloseListItem',function() {
+          $(".marketcloseListItem").find("span").hide();
+          $(this).find("span").show();
+      });
         });
 `;
     this._renderer2.appendChild(this._document.body, script);
+  }
+
+  toggleMarket(marketId,event,a){
+    // alert(a);
+    if(event.target.checked){
+      this.activateMarket(marketId);
+    }
+    else{
+      this.suspendMarket(marketId);
+    }
+  }
+
+  getRunnerList(selection,marketId){
+   // this.showLoad=true;
+    // this.betappService.getRunnerListByMarket(marketId).subscribe(runner => {
+    //   //console.log(runner);
+    //   this.showLoad=false;
+     this.liveMarketRunner=selection;
+     this.runnermarketId=marketId;
+  //  })
+  }
+
+  declareMarket(marketId,selectionId){
+    
+    this.details['marketId']=marketId;
+    this.details['selectionId']=selectionId;
+    this.details['outcomeTS']=new Date().getTime();
+    
+    
+  }
+
+  declareSubmit(){
+    this.details['outcome_message']=this.closeMsg;
+    //console.log(this.details);
+    this.showLoad=true;
+    this.betappService.declareMarket(this.details).subscribe(runner => {
+      if(runner.result.success){
+        alert("Market close successfully");
+        window.location.href="/orgadmin/eventtype/liveevents";
+        this.closeMsg="";
+      }
+      else{
+        alert(runner.err.error);
+      }
+     
+    //  this.liveMarketRunner=runner;
+   })
   }
 
   activateMarket(marketId){

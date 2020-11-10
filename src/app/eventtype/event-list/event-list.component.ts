@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Competition, Event, EventType, Market} from '../../_models/events';
 import { BetappService } from '@app/_services';
 import { DOCUMENT } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-event-list',
@@ -11,6 +12,7 @@ import { DOCUMENT } from '@angular/common';
 })
 export class EventListComponent implements OnInit {
 
+  marketForm: FormGroup;
   competitions: Competition[];
   eventType: EventType;
   id: number;
@@ -25,13 +27,27 @@ export class EventListComponent implements OnInit {
   MaxBetAmount:any;
   ScheduledLiveTime:any;
   ScheduledCloseTime:any;
+  eventTypeData: EventType;
+  aCompetitionData: Competition;
+  anEventData: Event;
+  aMarketData: Market;
+  selected: boolean;
+  marketAdded:any;
+  @ViewChild('closebutton') closebutton;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private betappService: BetappService,
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document) {
+      this.marketForm = this.fb.group({
+        min: ["", Validators.required],
+        max: ["", Validators.required],
+        sDate: ["", Validators.required],
+        eDate: ["", Validators.required],
+      });
   }
 
   ngOnInit(): any {
@@ -81,7 +97,7 @@ export class EventListComponent implements OnInit {
       this.showLoad=false;
     })
   }
-  console.log(this.data[i]['event']);
+  // console.log(this.data[i]['event']);
   }
 
   getmarket(eid,i,j){
@@ -89,6 +105,7 @@ export class EventListComponent implements OnInit {
       this.showLoad=true;
       
     this.betappService.listMarketsForEvent(eid).subscribe(z => {
+      console.log(this.liveMarkets);
       z.forEach(element => {
         var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
         if(index<0){
@@ -109,8 +126,32 @@ export class EventListComponent implements OnInit {
     
   }
 
-  enableMarket(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean): any {
-    return this.betappService.enableMarket(eventType, aCompetition, anEvent, aMarket, selected);
+  toggleMarket(marketId,event,a){
+    // console.log(event);
+    if(event.target.checked){
+      this.activateMarket(marketId);
+    }
+    else{
+      this.suspendMarket(marketId);
+    }
+  }
+
+  openLiveMarketModel(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean){
+    this.eventTypeData=eventType;
+    this.aCompetitionData=aCompetition;
+    this.anEventData=anEvent;
+    this.aMarketData=aMarket;
+    this.selected=selected;
+  }
+
+  enableMarket(): any {
+    this.anEventData['min']=this.marketForm.value.min;
+    this.anEventData['max']=this.marketForm.value.max;
+    this.anEventData['sDate']=new Date(this.marketForm.value.sDate).getTime();
+    this.anEventData['eDate']=new Date(this.marketForm.value.eDate).getTime();
+    console.log(this.anEventData);
+    this.closebutton.nativeElement.click();
+    return this.betappService.enableMarket(this.eventTypeData, this.aCompetitionData, this.anEventData, this.aMarketData, this.selected);
   }
 
   activateMarket(marketId){
@@ -125,24 +166,29 @@ export class EventListComponent implements OnInit {
     this.showLoad=true;
     var alertmsg="Below market successfully added\n\n";
     return this.betappService.saveMarkets().then(resp=>{
-      //  console.log("RESPONSE",resp.add_result.result.markets_added);
+       // console.log("RESPONSE",resp.add_result.result.markets_added);
       //console.log(resp.add_result.result.markets_added);
       if(resp.add_result.marketsToAdd!="nothing to add"){
+        this.marketAdded=resp.add_result.result.markets_added;
+        localStorage.setItem("Notifications",JSON.stringify(this.marketAdded));
       resp.add_result.result.markets_added.forEach(element => {
-      this.betappService.runMarketApi(element);
-      this.showLoad=false;
+      this.betappService.runMarketApi(element).subscribe(z => {
+      //this.showLoad=false;
       
+      
+      });
       alertmsg +=element.eventName+"---"+element.marketName+"\n";
       
-      //window.location.href="/eventtype/eventlist/"+this.id;
       });
-      alert(alertmsg);
+      var eid=this.id;
+       alert(alertmsg);
+      setTimeout(function(){ window.location.href="/eventtype/eventlist/"+eid; }, 3000);
     }
     else{
       alert("Process completed");
     }
       
-      window.location.href="/eventtype/eventlist/"+this.id;
+      //window.location.href="/eventtype/eventlist/"+this.id;
     })
   }
 

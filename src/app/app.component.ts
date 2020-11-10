@@ -10,6 +10,7 @@ import {map} from "rxjs/operators";
 export class AppComponent {
   user: User;
   eventTypes: EventType[];
+  Notifications:any;
 
   constructor(private accountService: AccountService, private betService: BetappService) {
     this.accountService.user.subscribe(x => this.user = x);
@@ -20,6 +21,8 @@ export class AppComponent {
     //   //   return trc;
     //   // }));
     // }
+    this.Notifications=JSON.parse(localStorage.getItem('Notifications'));
+    console.log(this.Notifications);
   }
 
   listCompetitionsOfType(typeId): Competition[] {

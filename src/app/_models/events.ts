@@ -24,6 +24,10 @@ export class Event {
     openDate: Date;
   };
   marketCount: number;
+  min:number;
+  max:number;
+  sDate:any;
+  eDate:any;
 }
 
 export class Market {

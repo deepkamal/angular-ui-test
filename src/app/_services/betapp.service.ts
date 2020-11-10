@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 import {environment} from '@environments/environment';
 import {Odd, Runner, MarketOdd, Market, Event, Competition, EventType} from '../_models/events';
@@ -174,6 +174,14 @@ export class BetappService {
     }
   }
 
+  getRunnerListByMarket(marketId): Observable<any> {
+    const url = `http://cricflame.co.in/developer/listMarketRunner/${marketId}`;
+    return this.http.get<any>(url);
+    
+  }
+
+
+
   listMarketRunners(marketId): Observable<Runner[]> {
     const url = `http://cricflame.co.in/developer/listMarketRunner/${marketId}`;
 
@@ -207,9 +215,9 @@ export class BetappService {
       marketId: aMarket.marketId,
       marketName: aMarket.marketName,
       marketMatched: aMarket.totalMatched,
-      "min_bet": 300,
-      "max_bet": 3000,
-      "market_live_after": (new Date()).getTime(),
+      "min_bet": anEvent.min,
+      "max_bet": anEvent.max,
+      "market_live_after": anEvent.sDate,
       "enabled": true,
       "status":'active'
     };
@@ -247,7 +255,13 @@ export class BetappService {
 
   }
 
-  
+  declareMarket(Details): Observable<any> {
+    
+    return this.http
+      .post("https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/declareMarket",Details,
+      {headers: {"x-icloudex-iss": "OrgAdmin"}})
+      .pipe(catchError(this.handleError));
+  }
 
   disableMarket(marketId): any {
   }
@@ -301,8 +315,7 @@ export class BetappService {
       {headers: {"x-icloudex-iss": "OrgAdmin"}}).pipe().toPromise();
   }
 
-  runMarketApi(element):any{
-    
+  runMarketApi(element): Observable<any> {
       return this.http.get<any>("http://cricflame.co.in/addMarketShaktiApi/"+element.marketId);
     
     
@@ -311,6 +324,22 @@ export class BetappService {
   clearMarkets(): boolean {
     this.markets_to_add = [];
     return (this.markets_to_add.length === 0);
+  }
+
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error("An error occurred:", error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+
+       // alert(error.error.message);
+
+    }
+    // return an observable with a user-facing error message
+    return throwError(error.error);
   }
 
 }

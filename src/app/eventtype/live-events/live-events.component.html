@@ -25,17 +25,15 @@
               <button class="btn btn-danger marketactionbtn" [disabled]="!aMarket.enabled" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
             <div class="toggle-button">
               <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" [checked]="aMarket.enabled" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
                 <span class="slider round"></span>
               </label>
             </div>
             <div class="dropdown float-right">
               <i class="fa fa-cog pointer" aria-hidden="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item text-right"><i class="fa fa-cog pointer" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i></a>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <!-- <a class="dropdown-item text-right"><i class="fa fa-times" aria-hidden="true"></i></a> -->
+                <a class="dropdown-item" (click)="getRunnerList(aMarket.selections,aMarket.marketId)" data-toggle="modal" data-target="#exampleModal" href="#">Close</a>
               </div>
             </div>
           </td>
@@ -61,21 +59,31 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Heading</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Runner List</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Won<span class="float-right"><i class="fa fa-check" aria-hidden="true"></i></span></li>          
-          <li class="list-group-item">lose<span class="float-right"><i class="fa fa-thumbs-down" aria-hidden="true"></i></span></li>      
+        <ul class="list-group list-group-flush" *ngIf="liveMarketRunner.length>0">
+          <li *ngFor="let runner of liveMarketRunner" (click)="declareMarket(runnermarketId,runner.selectionId)" class="list-group-item marketcloseListItem">{{ runner.runnerName }}<span class="float-right"><i class="fa fa-check" aria-hidden="true"></i></span></li>          
+          <!-- <li class="list-group-item">lose<span class="float-right"><i class="fa fa-thumbs-down" aria-hidden="true"></i></span></li>       -->
         </ul>
+        <div class="msg">
+          <textarea [(ngModel)]="closeMsg" class="form-control"></textarea>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" (click)="declareSubmit()">Save</button>
       </div>
     </div>
   </div>
+</div>
+
+
+<div id="overlay" *ngIf="showLoad">
+  <div class="spinner"></div>
+  <br/>
+  Loading...
 </div>
