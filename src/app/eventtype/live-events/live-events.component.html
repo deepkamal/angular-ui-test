@@ -16,7 +16,7 @@
           <th>Active/Suspend</th>
         </tr>
         <tr *ngFor="let aMarket of liveMarkets | filterSearch:searchTerm:'eventName'">
-          <td>{{ aMarket.eventName }}</td>
+          <td>{{aMarket.eventName }}</td>
           <td>{{aMarket.marketId}}</td>
           <td>{{aMarket.marketName}}</td>
           <td>{{aMarket.eventOpenDate | date:'medium'}}</td>
@@ -32,7 +32,7 @@
             <div class="dropdown float-right">
               <i class="fa fa-cog pointer" aria-hidden="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item text-right"><i class="fa fa-times" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i></a>
+                <a class="dropdown-item text-right"><i class="fa fa-cog pointer" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"></i></a>
                 <a class="dropdown-item" href="#">Action</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <a class="dropdown-item" href="#">Something else here</a>
