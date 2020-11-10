@@ -134,5 +134,5 @@ export class LiveEventsComponent implements OnInit {
 
   clearMarkets(): any {
     return console.log(this.betappService.clearMarkets());
-  }  
+  }    
 }
