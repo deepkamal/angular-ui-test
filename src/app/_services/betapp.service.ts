@@ -156,6 +156,13 @@ export class BetappService {
 
   }
 
+  getFencyBet(eventId): Observable<any> {
+    return this.http.get<any>("https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/fancyMarkets?eventId="+eventId);
+  }
+  getBookmakerMarket(eventId): Observable<any> {
+    return this.http.get<any>("https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/bookMakerMarkets?eventId="+eventId);
+  }
+
   listMarketsForEvent(eventId): Observable<Market[]> {
     const url = `http://cricflame.co.in/developer/listMarketTypes/${eventId}`;
 
@@ -221,7 +228,7 @@ export class BetappService {
       "enabled": true,
       "status":'active'
     };
-
+    console.log(eventMarketObj);
     let key = eventMarketObj['eventId'] + "_" + eventMarketObj['marketId'];
     console.log(`Received Key ${key} for value ${selected}`)
 
