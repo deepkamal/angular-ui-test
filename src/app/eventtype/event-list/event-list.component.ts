@@ -97,6 +97,7 @@ export class EventListComponent implements OnInit {
       this.showLoad=false;
     })
   }
+
   // console.log(this.data[i]['event']);
   }
 
@@ -122,6 +123,15 @@ export class EventListComponent implements OnInit {
       this.data[i]['event'][j]['market']=z;
       console.log(z);
     })
+
+    this.betappService.getFencyBet(eid).subscribe(x => {
+      this.data[i]['event'][j]['fency']=x.marketList;
+    })
+
+    this.betappService.getBookmakerMarket(eid).subscribe(y => {
+      this.data[i]['event'][j]['book']=y;
+    })
+
   }
     
   }
