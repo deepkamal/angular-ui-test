@@ -25,6 +25,10 @@ export class AppComponent {
     console.log(this.Notifications);
   }
 
+  clearLocalStorage(){
+    localStorage.clear();
+  }
+
   listCompetitionsOfType(typeId): Competition[] {
     return this.betService.listCompetitionsByEventType(typeId);
   }

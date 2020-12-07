@@ -224,6 +224,7 @@ export class BetappService {
       marketMatched: aMarket.totalMatched,
       "min_bet": anEvent.min,
       "max_bet": anEvent.max,
+      "marketType":anEvent.marketType,
       "market_live_after": anEvent.sDate,
       "enabled": true,
       "status":'active'
@@ -234,13 +235,14 @@ export class BetappService {
 
     return this.listMarketRunners(aMarket.marketId).subscribe(data => {
       console.log(`got data ${data}`, data)
-      eventMarketObj['selections'] = data[0]['runners']
-
+      eventMarketObj['selections'] = data[0]?data[0]['runners']:"";
       let selectionObj = {}
-
+      if(data[0])
+      {
       eventMarketObj['selections'].map((sel, index) => {
         selectionObj[sel.selectionId] = sel;
       })
+    }
 
       eventMarketObj['selectionsObj'] = selectionObj;
       if (selected) {
@@ -257,7 +259,7 @@ export class BetappService {
         delete this._markets_to_add[key];
       }
 
-       console.log(this._markets_to_add);
+       console.log("market add",this._markets_to_add);
     });
 
   }

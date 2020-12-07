@@ -28,6 +28,7 @@ export class Event {
   max:number;
   sDate:any;
   eDate:any;
+  marketType:string;
 }
 
 export class Market {
