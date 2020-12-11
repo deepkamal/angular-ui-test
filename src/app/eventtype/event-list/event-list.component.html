@@ -40,22 +40,111 @@
                 <div class="card-body">
   
                         <div>
-                            <table class="table">
-                                <tr>
-                                    <th>Add Market</th>
-                                    <th>Market Id</th>
-                                    <th>Market Name</th>
-                                    <th>Total matched</th>
-                                    <th>Active/Suspend</th>
-                                </tr>
-                                <tr>
-                                  <th colspan="99" style="background: #efefef;">Match Odds</th>
-                                </tr>
-                                <tr *ngFor="let aMarket of item.market">
-                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'cf')" data-toggle="modal" data-target="#exampleModal"></td>
+                          <div class="accordion" id="accordionExample">
+                            <div class="card">
+                              <div class="card-header" id="heading{{item.event.id}}_{{aCompetition.comp.competition.id}}-1">
+                                <h5 class="mb-0">
+                                  <a class="collapsed" role="button" data-toggle="collapse" href="#market{{item.event.id}}_{{aCompetition.comp.competition.id}}-1"
+                                    aria-expanded="false" attr.aria-controls="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-1">
+                                    Match Odds
+                                  </a>
+                                </h5>
+                              </div>
+                              <div id="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-1" class="collapse" data-parent="#accordionExample" attr.aria-labelledby="heading{{item.event.id}}_{{aCompetition.comp.competition.id}}-1">
+                                <div class="card-body">
+                                  <table class="table">
+                                    <tr>
+                                        <th>Add Market</th>
+                                        <th>Market Id</th>
+                                        <th>Market Name</th>
+                                        <th>Total matched</th>
+                                        <th>Active/Suspend</th>
+                                    </tr>
+                                    <tr *ngFor="let aMarket of item.market">
+                                        <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'cf')" data-toggle="modal" data-target="#exampleModal"></td>
+                                        <td>{{aMarket.marketId}}</td>
+                                        <td>{{aMarket.marketName}}</td>
+                                        <td>{{aMarket.totalMatched}}</td>
+                                        <td>
+                                          <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
+                                          <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
+                                          <div class="toggle-button">
+                                            <label class="switch">
+                                              <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
+                                              <span class="slider round"></span>
+                                            </label>
+                                          </div>
+                                        </td>
+                                    </tr>
+                                                                      
+                                </table>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="heading{{item.event.id}}_{{aCompetition.comp.competition.id}}-2">
+                                <h5 class="mb-0">
+                                  <a class="collapsed" role="button" data-toggle="collapse" href="#market{{item.event.id}}_{{aCompetition.comp.competition.id}}-2"
+                                    aria-expanded="false" attr.aria-controls="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-2">
+                                    Fancy Market
+                                  </a>
+                                </h5>
+                              </div>
+                              <div id="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-2" class="collapse" data-parent="#accordionExample" attr.aria-labelledby="heading{{item.event.id}}_{{aCompetition.comp.competition.id}}-2">
+                                <div class="card-body">
+                                  <table class="table">
+                                    <tr>
+                                        <th>Add Market</th>
+                                        <th>Market Id</th>
+                                        <th>Market Name</th>
+                                        <th>Total matched</th>
+                                        <th>Active/Suspend</th>
+                                    </tr>
+                                    
+                                    <tr *ngFor="let aMarket of item.fency">
+                                      <td><input #val [checked]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'fancy')" data-toggle="modal" data-target="#exampleModal" type="checkbox"></td>
+                                      <td>{{aMarket.marketId}}</td>
+                                      <td>{{aMarket.marketName}}</td>
+                                      <td>{{aMarket.minMaxSetting}}</td>
+                                      <td>
+                                        <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
+                                        <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
+                                        <div class="toggle-button">
+                                          <label class="switch">
+                                            <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
+                                            <span class="slider round"></span>
+                                          </label>
+                                        </div>
+                                      </td>
+                                  </tr>
+                                </table>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="heading{{item.event.id}}_{{aCompetition.comp.competition.id}}-3">
+                                <h5 class="mb-0">
+                                  <a class="collapsed" role="button" data-toggle="collapse" href="#market{{item.event.id}}_{{aCompetition.comp.competition.id}}-3"
+                                    aria-expanded="false" attr.aria-controls="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-3">
+                                    Bookmakers Market
+                                  </a>
+                                </h5>
+                              </div>
+                              <div id="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-3" class="collapse" data-parent="#accordionExample" attr.aria-labelledby="heading{{item.event.id}}_{{aCompetition.comp.competition.id}}-3">
+                                <div class="card-body">
+                                  <table class="table">
+                                    <tr>
+                                        <th>Add Market</th>
+                                        <th>Market Id</th>
+                                        <th>Market Name</th>
+                                        <th>Total matched</th>
+                                        <th>Active/Suspend</th>
+                                    </tr>
+                                   <tr *ngFor="let aMarket of item.book">
+                                    <td><input #val [checked]="aMarket.live" type="checkbox" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'bookmaker')" data-toggle="modal" data-target="#exampleModal" type="checkbox"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
-                                    <td>{{aMarket.totalMatched}}</td>
+                                    <td>{{aMarket.minMaxSetting}}</td>
                                     <td>
                                       <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
                                       <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
@@ -67,45 +156,12 @@
                                       </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                  <th colspan="99" style="background: #efefef;">Fency Market</th>
-                                </tr>
-                                <tr *ngFor="let aMarket of item.fency">
-                                  <td><input #val [checked]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'fancy')" data-toggle="modal" data-target="#exampleModal" type="checkbox"></td>
-                                  <td>{{aMarket.marketId}}</td>
-                                  <td>{{aMarket.marketName}}</td>
-                                  <td>{{aMarket.minMaxSetting}}</td>
-                                  <td>
-                                    <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                    <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
-                                    <div class="toggle-button">
-                                      <label class="switch">
-                                        <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
-                                        <span class="slider round"></span>
-                                      </label>
-                                    </div>
-                                  </td>
-                              </tr>
-                              <tr>
-                                <th colspan="99" style="background: #efefef;">Bookmakers Market</th>
-                              </tr>
-                              <tr *ngFor="let aMarket of item.book">
-                                <td><input #val [checked]="aMarket.live" type="checkbox" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'bookmaker')" data-toggle="modal" data-target="#exampleModal" type="checkbox"></td>
-                                <td>{{aMarket.marketId}}</td>
-                                <td>{{aMarket.marketName}}</td>
-                                <td>{{aMarket.minMaxSetting}}</td>
-                                <td>
-                                  <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                  <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
-                                  <div class="toggle-button">
-                                    <label class="switch">
-                                      <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
-                                      <span class="slider round"></span>
-                                    </label>
-                                  </div>
-                                </td>
-                            </tr>
-                            </table>
+                                </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                            
                             
                           </div>
   
