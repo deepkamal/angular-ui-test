@@ -130,7 +130,8 @@ export class EventListComponent implements OnInit {
     })
 
     this.betappService.getBookmakerMarket(eid).subscribe(y => {
-      this.data[i]['event'][j]['book']=y;
+      this.data[i]['event'][j]['book']=y.marketList;
+      console.log(y);
     })
 
   }
