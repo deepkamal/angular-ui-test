@@ -52,7 +52,7 @@
                                   <th colspan="99" style="background: #efefef;">Match Odds</th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.market">
-                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'odd')" data-toggle="modal" data-target="#exampleModal"></td>
+                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'cf')" data-toggle="modal" data-target="#exampleModal"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
