@@ -61,7 +61,7 @@
                                         <th>Active/Suspend</th>
                                     </tr>
                                     <tr *ngFor="let aMarket of item.market">
-                                        <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'cf')" data-toggle="modal" data-target="#exampleModal"></td>
+                                        <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'CF')" data-toggle="modal" data-target="#exampleModal"></td>
                                         <td>{{aMarket.marketId}}</td>
                                         <td>{{aMarket.marketName}}</td>
                                         <td>{{aMarket.totalMatched}}</td>
@@ -87,8 +87,11 @@
                                   <a class="collapsed" role="button" data-toggle="collapse" href="#market{{item.event.id}}_{{aCompetition.comp.competition.id}}-2"
                                     aria-expanded="false" attr.aria-controls="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-2">
                                     Fancy Market
+                                    
                                   </a>
+                                  <span class="float-right">Enable All Markets: <input #val type="checkbox" (click)="openLiveMarketModel1(eventType,aCompetition.comp,item,item.fency,val.checked,'fancy','allfancy')" data-toggle="modal" data-target="#exampleModal" class="fancycheckall pull-right" type="checkbox"></span>
                                 </h5>
+                                
                               </div>
                               <div id="market{{item.event.id}}_{{aCompetition.comp.competition.id}}-2" class="collapse" data-parent="#accordionExample" attr.aria-labelledby="heading{{item.event.id}}_{{aCompetition.comp.competition.id}}-2">
                                 <div class="card-body">
@@ -102,7 +105,7 @@
                                     </tr>
                                     
                                     <tr *ngFor="let aMarket of item.fency">
-                                      <td><input #val [checked]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'fancy')" data-toggle="modal" data-target="#exampleModal" type="checkbox"></td>
+                                      <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'fancy')" data-toggle="modal" data-target="#exampleModal" class="fancycheck" type="checkbox"></td>
                                       <td>{{aMarket.marketId}}</td>
                                       <td>{{aMarket.marketName}}</td>
                                       <td>{{aMarket.minMaxSetting}}</td>
@@ -141,7 +144,7 @@
                                         <th>Active/Suspend</th>
                                     </tr>
                                    <tr *ngFor="let aMarket of item.book">
-                                    <td><input #val [checked]="aMarket.live" type="checkbox" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'bookmaker')" data-toggle="modal" data-target="#exampleModal" type="checkbox"></td>
+                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked,'bookmaker')" data-toggle="modal" data-target="#exampleModal" type="checkbox"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.minMaxSetting}}</td>

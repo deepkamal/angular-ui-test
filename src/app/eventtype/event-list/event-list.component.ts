@@ -35,6 +35,7 @@ export class EventListComponent implements OnInit {
   marketAdded:any;
   @ViewChild('closebutton') closebutton;
   marketType: any;
+  enableType: any;
 
   constructor(
     private fb: FormBuilder,
@@ -82,6 +83,14 @@ export class EventListComponent implements OnInit {
           $(document).on('click','.marketactionbtn',function() {
             $(this).attr('disabled',true);
         });
+        $(document).on('click','.fancycheckall',function(){
+          if ($(this).prop('checked')==true){ 
+          $('.fancycheck').prop('checked', true);
+          }
+          else{
+            $('.fancycheck').prop('checked', false);
+          }
+        })
         });
 `;
     this._renderer2.appendChild(this._document.body, script);
@@ -122,14 +131,38 @@ export class EventListComponent implements OnInit {
       });
       
       this.data[i]['event'][j]['market']=z;
-      console.log(z);
     })
 
     this.betappService.getFencyBet(eid).subscribe(x => {
+      x.marketList.forEach(element => {
+        var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
+        if(index<0){
+          element['live']=false;
+          element['active']=false;
+        }
+        else{
+        element['live']=true;
+        element['active']= element['active']=this.liveMarkets[index].enabled;;
+        }
+        this.showLoad=false;
+      });
       this.data[i]['event'][j]['fency']=x.marketList;
+      console.log('fancy',this.data[i]['event'][j]['fency']);
     })
 
     this.betappService.getBookmakerMarket(eid).subscribe(y => {
+      y.marketList.forEach(element => {
+        var index=this.liveMarkets.findIndex(x => x.marketId === element.marketId);
+        if(index<0){
+          element['live']=false;
+          element['active']=false;
+        }
+        else{
+        element['live']=true;
+        element['active']= element['active']=this.liveMarkets[index].enabled;;
+        }
+        this.showLoad=false;
+      });
       this.data[i]['event'][j]['book']=y.marketList;
       console.log(y);
     })
@@ -148,6 +181,17 @@ export class EventListComponent implements OnInit {
     }
   }
 
+  openLiveMarketModel1(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: any, selected: boolean,marketType,options=null){
+    this.eventTypeData=eventType;
+    this.aCompetitionData=aCompetition;
+    this.anEventData=anEvent;
+    this.aMarketData=aMarket;
+    this.selected=selected;
+    this.marketType=marketType;
+    this.enableType=options;
+    console.log(this.aMarketData)
+  }
+
   openLiveMarketModel(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean,marketType){
     this.eventTypeData=eventType;
     this.aCompetitionData=aCompetition;
@@ -155,9 +199,11 @@ export class EventListComponent implements OnInit {
     this.aMarketData=aMarket;
     this.selected=selected;
     this.marketType=marketType;
+    this.enableType=null;
   }
 
   enableMarket(): any {
+    if(this.enableType==null){
     this.anEventData['min']=this.marketForm.value.min;
     this.anEventData['max']=this.marketForm.value.max;
     this.anEventData['marketType']=this.marketType;
@@ -166,6 +212,20 @@ export class EventListComponent implements OnInit {
     console.log(this.anEventData);
     this.closebutton.nativeElement.click();
     return this.betappService.enableMarket(this.eventTypeData, this.aCompetitionData, this.anEventData, this.aMarketData, this.selected);
+    }
+    else{
+      this.anEventData['min']=this.marketForm.value.min;
+    this.anEventData['max']=this.marketForm.value.max;
+    this.anEventData['marketType']=this.marketType;
+    this.anEventData['sDate']=new Date(this.marketForm.value.sDate).getTime();
+    this.anEventData['eDate']=new Date(this.marketForm.value.eDate).getTime();
+    console.log(this.anEventData);
+    this.closebutton.nativeElement.click();
+    this.aMarketData.forEach(market => {
+      return this.betappService.enableMarket(this.eventTypeData, this.aCompetitionData, this.anEventData, market, this.selected);
+    });
+
+    }
   }
 
   activateMarket(marketId){
