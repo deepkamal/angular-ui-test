@@ -91,20 +91,20 @@ export class LiveEventsComponent implements OnInit {
 
   declareSubmit(){
     this.details['outcome_message']=this.closeMsg;
-    //console.log(this.details);
-    this.showLoad=true;
-    this.betappService.declareMarket(this.details).subscribe(runner => {
-      if(runner.result.success){
-        alert("Market close successfully");
-        window.location.href="/orgadmin/eventtype/liveevents";
-        this.closeMsg="";
-      }
-      else{
-        alert(runner.err.error);
-      }
+    console.log(this.details);
+    // this.showLoad=true;
+    // this.betappService.declareMarket(this.details).subscribe(runner => {
+    //   if(runner.result.success){
+    //     alert("Market close successfully");
+    //     window.location.href="/orgadmin/eventtype/liveevents";
+    //     this.closeMsg="";
+    //   }
+    //   else{
+    //     alert(runner.err.error);
+    //   }
      
     //  this.liveMarketRunner=runner;
-   })
+  //  })
   }
 
   activateMarket(marketId){
