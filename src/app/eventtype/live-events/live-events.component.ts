@@ -75,7 +75,11 @@ export class LiveEventsComponent implements OnInit {
      this.runnermarketId=marketId;
   //  })
   }
-
+  voidMarket(){
+    this.details['marketId']=this.runnermarketId.toString();
+    this.details['selectionId']=-2;
+    this.details['outcomeTS']=new Date().getTime();
+  }
   declareMarket(marketId,selectionId){
     
     this.details['marketId']=marketId;

@@ -36,6 +36,7 @@ export class EventListComponent implements OnInit {
   @ViewChild('closebutton') closebutton;
   marketType: any;
   enableType: any;
+  aMarketDataarray: any=[];
 
   constructor(
     private fb: FormBuilder,
@@ -185,11 +186,10 @@ export class EventListComponent implements OnInit {
     this.eventTypeData=eventType;
     this.aCompetitionData=aCompetition;
     this.anEventData=anEvent;
-    this.aMarketData=aMarket;
+    this.aMarketDataarray=aMarket;
     this.selected=selected;
     this.marketType=marketType;
     this.enableType=options;
-    console.log(this.aMarketData)
   }
 
   openLiveMarketModel(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean,marketType){
@@ -221,7 +221,7 @@ export class EventListComponent implements OnInit {
     this.anEventData['eDate']=new Date(this.marketForm.value.eDate).getTime();
     console.log(this.anEventData);
     this.closebutton.nativeElement.click();
-    this.aMarketData.forEach(market => {
+    this.aMarketDataarray.forEach(market => {
       return this.betappService.enableMarket(this.eventTypeData, this.aCompetitionData, this.anEventData, market, this.selected);
     });
 
