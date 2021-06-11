@@ -9,7 +9,7 @@ import {Odd, Runner, MarketOdd, Market, Event, Competition, EventType} from '../
 
 @Injectable({providedIn: 'root'})
 export class BetappService {
-  private EVENT_API: 'http://cricflame.co.in/developer/';
+  private EVENT_API: 'https://bxawscf.skyexchange.com/exchange/member/playerService/';
   private eventTypes: Observable<EventType[]>;
   private eventTypeSubject: BehaviorSubject<EventType[]>;
   private events: Observable<Event[]>;
@@ -89,32 +89,33 @@ export class BetappService {
     // return this.http.get<any>(this.apiUrl + "menus/"+menuType);
   }
 
-  listEventType(): Observable<EventType[]> {
+  listEventType() {
     // const url = this.EVENT_API + 'listEventTypes';
-    const url = 'http://cricflame.co.in/developer/listEventTypes';
+    //const url = 'http://cricflame.co.in/developer/listEventTypes';
+    const url = '/exchange/member/playerService/queryMenu';
     const localData = localStorage.getItem('eventTypes');
     if (localData) {
       this.eventTypeSubject.next(JSON.parse(localData) as EventType[]);
       // return data from local storage, `of` used to create Observable on the fly
       return of(JSON.parse(localData) as EventType[]);
     }
-    return this.http.get(url).pipe(map((x: EventType[]) => {
-      // console.log('got this', x);
-      const eventTypeData = {};
-      x.map((eventType) => {
-        eventTypeData[eventType.eventType.id] = eventType;
-      });
-      localStorage.setItem('eventTypes', JSON.stringify(x));
-      // console.log('setting event Type data', eventTypeData);
-      localStorage.setItem('eventTypeMap', JSON.stringify(eventTypeData));
-      this.eventTypeSubject.next(x);
-      return x;
-    }));
+    
+    return this.http
+      .post(url,"",
+      )
+      .pipe(catchError(this.handleError));
   }
 
-  getEventTypeById(id): EventType {
-    // console.log('the event type is ', JSON.parse(localStorage.getItem('eventTypeMap'))[id]);
-    return (localStorage.getItem('eventTypeMap') != null ? JSON.parse(localStorage.getItem('eventTypeMap'))[id] : {}) as EventType;
+  getLiveEventCount(){
+    const url='/exchange/member/playerService/queryOnLiveEvents';
+    return this.http
+      .post(url,"",
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  getEventTypeById(eventId) {
+    return this.http.get<any>("/exchange/member/playerService/queryEventsWithMarket?eventType="+eventId+"&eventTs=-1&marketTs=-1&selectionTs=-1");
   }
 
   listEventsByType(typeId): any {

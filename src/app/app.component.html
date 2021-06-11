@@ -22,14 +22,17 @@
         <ul class="navbar-nav mr-auto">
           <ng-template ngFor let-aEventType [ngForOf]="eventTypes">
             <li class="nav-item">
-              <a class="nav-link" href="eventtype/eventlist/{{aEventType.eventType.id}}" routerLinkActive="active"
-                *ngIf="aEventType.eventType.id==4||aEventType.eventType.id==2||aEventType.eventType.id==1">
-                {{aEventType.eventType.name}}<span class="event-count">({{aEventType.marketCount}})</span>
+              <a class="nav-link" href="eventtype/eventlist/{{aEventType.id}}" routerLinkActive="active"
+                *ngIf="aEventType.id==4||aEventType.id==2||aEventType.id==1">
+                {{aEventType.name}}<span class="event-count">({{eventCount[aEventType.id]}})</span>
               </a>
             </li>
           </ng-template>
           <li class="nav-item">
             <a class="nav-link" href="eventtype/liveevents/">Live Markets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="clearLocalStorage()">Clear Local Storage</a>
           </li>
           <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

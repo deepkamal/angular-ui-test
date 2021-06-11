@@ -21,7 +21,11 @@ export class ListComponent implements OnInit {
 
     this.id = this.route.snapshot.params.id;
 
-    this.eventType = this.betappService.getEventTypeById(this.id);
+    //this.eventType = this.betappService.getEventTypeById(this.id);
+    this.betappService.getEventTypeById(this.id).subscribe((x:any) => {
+      this.eventType=x
+      console.log(x);
+    });
     // console.log(`GOT ID=${this.id}`);
     this.betappService.listCompetitionsByEventType(this.id).subscribe(x => {
       this.competitions = x;

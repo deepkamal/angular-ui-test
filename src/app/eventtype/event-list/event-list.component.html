@@ -8,24 +8,24 @@
     <div class="card" *ngFor="let aCompetition of data; let i=index">
       <div class="card-header" id="heading-1">
         <h5 class="mb-0">
-          <a role="button" data-toggle="collapse" (click)="getevent(aCompetition.comp.competition.id,i)" href="#collapse{{aCompetition.comp.competition.id}}" aria-expanded="false" aria-controls="collapse-1">
-            {{aCompetition.comp.competition.name}}
+          <a role="button" data-toggle="collapse" href="#collapse{{aCompetition.id}}" aria-expanded="false" aria-controls="collapse-1">
+            {{aCompetition.name}}
           </a>
         </h5>
       </div>
-      <div id="collapse{{aCompetition.comp.competition.id}}" class="collapse" data-parent="#accordion" aria-labelledby="heading-1">
+      <div id="collapse{{aCompetition.id}}" class="collapse" data-parent="#accordion" aria-labelledby="heading-1">
         <div class="card-body">
   
           <div *ngIf="aCompetition.event" id="accordion-1">
             <div class="card" *ngFor="let item of aCompetition.event;let j=index">
               <div class="card-header" id="heading-1-1">
                 <h5 class="mb-0">
-                  <a class="collapsed" role="button" (click)="getmarket(item.event.id,i,j)" data-toggle="collapse" href="#collapse{{item.event.id}}_{{aCompetition.comp.competition.id}}" aria-expanded="false" aria-controls="collapse-1-1">
+                  <a class="collapsed" role="button" data-toggle="collapse" href="#collapse{{item.id}}_{{aCompetition.id}}" aria-expanded="false" aria-controls="collapse-1-1">
                     
                     <div class="row">
-                      <div class="col-md-3">{{ item.event.name }} ({{item.marketCount}})</div>
-                      <div class="col-md-3">{{ item.event.countryCode }}</div>
-                      <div class="col-md-3">{{ item.event.openDate | date:'medium' }}</div>
+                      <div class="col-md-3">{{ item.name }} ({{item.markets.length}})</div>
+                      <div class="col-md-3">{{ item.countryCode }}</div>
+                      <div class="col-md-3">{{ item.openDate | date:'medium' }}</div>
                       <div class="col-md-3">
                         <a><i class="fas fa-toggle-on"></i></a>
                         <a><i class="fas fa-toggle-off"></i></a>
@@ -36,7 +36,7 @@
                   </a>
                 </h5>
               </div>
-              <div id="collapse{{item.event.id}}_{{aCompetition.comp.competition.id}}" class="collapse" data-parent="#accordion-1" aria-labelledby="heading-1-1">
+              <!-- <div id="collapse{{item.event.id}}_{{aCompetition.comp.competition.id}}" class="collapse" data-parent="#accordion-1" aria-labelledby="heading-1-1">
                 <div class="card-body">
   
                         <div>
@@ -57,8 +57,6 @@
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
-                                      <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                      <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
                                       <div class="toggle-button">
                                         <label class="switch">
                                           <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
@@ -76,8 +74,6 @@
                                   <td>{{aMarket.marketName}}</td>
                                   <td>{{aMarket.minMaxSetting}}</td>
                                   <td>
-                                    <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                    <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
                                     <div class="toggle-button">
                                       <label class="switch">
                                         <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
@@ -95,8 +91,6 @@
                                 <td>{{aMarket.marketName}}</td>
                                 <td>{{aMarket.minMaxSetting}}</td>
                                 <td>
-                                  <!-- <button class="btn btn-success marketactionbtn" [disabled]="aMarket.live?aMarket.active:true" (click)="activateMarket(aMarket.marketId)">Active</button>
-                                  <button class="btn btn-danger marketactionbtn" [disabled]="aMarket.live?!aMarket.active:true" (click)="suspendMarket(aMarket.marketId)">Suspend</button> -->
                                   <div class="toggle-button">
                                     <label class="switch">
                                       <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
@@ -110,7 +104,7 @@
                           </div>
   
                 </div>
-              </div>
+              </div> -->
             </div>
             
           </div>      

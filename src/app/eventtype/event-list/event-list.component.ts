@@ -14,7 +14,8 @@ export class EventListComponent implements OnInit {
 
   marketForm: FormGroup;
   competitions: Competition[];
-  eventType: EventType;
+  eventType: any;
+  // eventType: EventType;
   id: number;
   alldata: any;
   data: any[];
@@ -55,25 +56,51 @@ export class EventListComponent implements OnInit {
     this.id = this.route.snapshot.params.id;
     
     this.data=[];
-    this.eventType = this.betappService.getEventTypeById(this.id);
-    // console.log(`GOT ID=${this.id}`);
-    this.betappService.getAllLiveMarkets().subscribe(markets => {
-      //console.log(markets);
-      this.liveMarkets=markets;
-    })
-    this.betappService.listCompetitionsByEventType(this.id).subscribe(x => {
-      this.competitions = x;
-      //this.data=x;
-      //this.alldata={};
-      x.forEach(element => {
-        this.alldata={};
-        this.alldata['comp']=element;
+    // this.eventType = this.betappService.getEventTypeById(this.id);
+    this.betappService.getEventTypeById(this.id).subscribe((x:any) => {
+      this.eventType=x
+      this.eventType.events.forEach(element => {
+        this.alldata={}
+        console.log()
+        if(element.id>0){
+          var elementPos = this.data.map(function(x) {return x.id; }).indexOf(element.competitionId);
+          if(elementPos<0){
+            
+            this.alldata['name']=element.competitionName;
+            this.alldata['id']=element.competitionId;
+            this.alldata['event']=new Array(element);
+            this.data.push(this.alldata);
+          }
+          else{
+            this.data[elementPos].event.push(element);
+          }
           
-          this.data.push(this.alldata);
-          this.showLoad=false;
+         
+        }
+        
       });
-    //});
+      
+      this.showLoad=false;
+      console.log(this.data);
     });
+    // console.log(`GOT ID=${this.id}`);
+    // this.betappService.getAllLiveMarkets().subscribe(markets => {
+    //   //console.log(markets);
+    //   this.liveMarkets=markets;
+    // })
+    // this.betappService.listCompetitionsByEventType(this.id).subscribe(x => {
+    //   this.competitions = x;
+    //   //this.data=x;
+    //   //this.alldata={};
+    //   x.forEach(element => {
+    //     this.alldata={};
+    //     this.alldata['comp']=element;
+          
+    //       this.data.push(this.alldata);
+    //       this.showLoad=false;
+    //   });
+    // //});
+    // });
     let script = this._renderer2.createElement("script");
     script.type = `text/javascript`;
     script.text = `

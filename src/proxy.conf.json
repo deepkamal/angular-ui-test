@@ -1,0 +1,7 @@
+{
+  "/exchange": {
+    "target": "https://www.skyexchange.com",
+    "secure": true,
+    "changeOrigin": true
+  }
+}
