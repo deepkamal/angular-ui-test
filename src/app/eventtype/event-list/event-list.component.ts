@@ -57,32 +57,38 @@ export class EventListComponent implements OnInit {
     
     this.data=[];
     // this.eventType = this.skyService.getEventTypeById(this.id);
-    this.skyService.getEventTypeById(this.id).subscribe((x:any) => {
-      this.eventType=x
-      this.eventType.events.forEach(element => {
-        this.alldata={}
-        console.log()
-        if(element.id>0){
-          var elementPos = this.data.map(function(x) {return x.id; }).indexOf(element.competitionId);
-          if(elementPos<0){
+    this.skyService.getAllLiveMarkets().subscribe(markets => {
+      this.liveMarkets=markets;
+      this.skyService.getEventTypeById(this.id).subscribe((x:any) => {
+        this.eventType=x
+        this.eventType.events.forEach(element => {
+          this.alldata={}
+          
+          if(element.id>0){
+            var elementPos = this.data.map(function(x) {return x.id; }).indexOf(element.competitionId);
             
-            this.alldata['name']=element.competitionName;
-            this.alldata['id']=element.competitionId;
-            this.alldata['event']=new Array(element);
-            this.data.push(this.alldata);
-          }
-          else{
-            this.data[elementPos].event.push(element);
+            if(elementPos<0){
+              
+              this.alldata['name']=element.competitionName;
+              this.alldata['id']=element.competitionId;
+              this.alldata['event']=new Array(element);
+              this.data.push(this.alldata);
+            }
+            else{
+              this.data[elementPos].event.push(element);
+            }
+            
+           
           }
           
-         
-        }
-        
+        });
+        this.showLoad=false;
+        console.log(this.data);
       });
-      
-      this.showLoad=false;
-      console.log(this.data);
-    });
+    })
+
+    
+    
     // console.log(`GOT ID=${this.id}`);
     // this.skyService.getAllLiveMarkets().subscribe(markets => {
     //   //console.log(markets);
@@ -111,6 +117,14 @@ export class EventListComponent implements OnInit {
         });
 `;
     this._renderer2.appendChild(this._document.body, script);
+  }
+
+  isMarketLive(marketId){
+    console.log(marketId);
+    var liveMarket = this.liveMarkets.map(function(x) {return x.marketId; }).indexOf(marketId);
+    console.log(liveMarket);
+    return liveMarket<0?false:true;
+    
   }
 
   getevent(cid,i){

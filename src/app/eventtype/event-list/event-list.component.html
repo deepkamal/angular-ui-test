@@ -52,14 +52,14 @@
                                   <th colspan="99" style="background: #efefef;">Match Odds</th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.markets">
-                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.inPlay" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition,item,aMarket,val.checked)" data-toggle="modal" data-target="#exampleModal"></td>
+                                    <td><input #val [checked]="isMarketLive(aMarket.marketId)" [disabled]="aMarket.inPlay" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition,item,aMarket,val.checked)" data-toggle="modal" data-target="#exampleModal"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
                                     <td>
                                       <div class="toggle-button">
                                         <label class="switch">
-                                          <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
+                                          <input type="checkbox" [checked]="isMarketLive(aMarket.marketId)" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
                                           <span class="slider round"></span>
                                         </label>
                                       </div>
@@ -69,14 +69,14 @@
                                   <th colspan="99" style="background: #efefef;">Fency Market</th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.fency">
-                                  <td><input #val [checked]="aMarket.live" type="checkbox"></td>
+                                  <td><input #val [checked]="isMarketLive(aMarket.marketId)" type="checkbox"></td>
                                   <td>{{aMarket.marketId}}</td>
                                   <td>{{aMarket.marketName}}</td>
                                   <td>{{aMarket.minMaxSetting}}</td>
                                   <td>
                                     <div class="toggle-button">
                                       <label class="switch">
-                                        <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
+                                        <input type="checkbox" [checked]="isMarketLive(aMarket.marketId)" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
                                         <span class="slider round"></span>
                                       </label>
                                     </div>
@@ -86,14 +86,14 @@
                                 <th colspan="99" style="background: #efefef;">Bookmakers Market</th>
                               </tr>
                               <tr *ngFor="let aMarket of item.book">
-                                <td><input #val [checked]="aMarket.live" type="checkbox"></td>
+                                <td><input #val [checked]="isMarketLive(aMarket.marketId)" type="checkbox"></td>
                                 <td>{{aMarket.marketId}}</td>
                                 <td>{{aMarket.marketName}}</td>
                                 <td>{{aMarket.minMaxSetting}}</td>
                                 <td>
                                   <div class="toggle-button">
                                     <label class="switch">
-                                      <input type="checkbox" [checked]="aMarket.live?aMarket.active:false" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
+                                      <input type="checkbox" [checked]="isMarketLive(aMarket.marketId)" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
                                       <span class="slider round"></span>
                                     </label>
                                   </div>
