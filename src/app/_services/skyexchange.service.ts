@@ -211,21 +211,32 @@ export class SkyexchangeService {
     }
   }
 
-  enableMarket(eventType: EventType, aCompetition: Competition, anEvent: Event, aMarket: Market, selected: boolean): any {
+  enableMarket(eventType, aCompetition, anEvent, aMarket, selected: boolean): any {
+    var mtype="";
+    if(aMarket.marketType=="Match Odds"){
+      mtype="SKY_LIVE";
+    }
+    else if(aMarket.marketType=="FANCY"){
+      mtype="SKY_FANCY";
+    }
+    else{
+      mtype="SKY_BM";
+    }
     let eventMarketObj = {
-      eventId: anEvent.event.id,
-      eventName: anEvent.event.name,
-      eventOpenDate: anEvent.event.openDate,
-      eventMarketCount: anEvent.marketCount,
-      competitionName: aCompetition.competition.name,
-      competitionId: aCompetition.competition.id,
-      competitionMarketCount: aCompetition.marketCount,
-      competitionRegion: aCompetition.competitionRegion,
-      eventTypeId: eventType.eventType.id,
-      eventTypeName: eventType.eventType.name,
+      eventId: anEvent.id,
+      eventName: anEvent.name,
+      eventOpenDate: anEvent.openDate,
+      eventMarketCount: anEvent.markets.length,
+      competitionName: anEvent.competitionName,
+      competitionId: anEvent.competitionId,
+      competitionMarketCount: anEvent.markets.length,
+      competitionRegion: anEvent.countryCode,
+      eventTypeId: eventType.eventType,
+      eventTypeName: localStorage.getItem('eTypeName'),
       marketId: aMarket.marketId,
       marketName: aMarket.marketName,
       marketMatched: aMarket.totalMatched,
+      marketType:mtype,
       "min_bet": anEvent.min,
       "max_bet": anEvent.max,
       "market_live_after": anEvent.sDate,
@@ -236,9 +247,8 @@ export class SkyexchangeService {
     let key = eventMarketObj['eventId'] + "_" + eventMarketObj['marketId'];
     console.log(`Received Key ${key} for value ${selected}`)
 
-    return this.listMarketRunners(aMarket.marketId).subscribe(data => {
-      console.log(`got data ${data}`, data)
-      eventMarketObj['selections'] = data[0]['runners']
+   // return this.listMarketRunners(aMarket.marketId).subscribe(data => {
+      eventMarketObj['selections'] = aMarket.selections;
 
       let selectionObj = {}
 
@@ -262,7 +272,7 @@ export class SkyexchangeService {
       }
 
        console.log(this._markets_to_add);
-    });
+    //});
 
   }
 

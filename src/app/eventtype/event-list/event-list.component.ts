@@ -186,7 +186,7 @@ export class EventListComponent implements OnInit {
     this.anEventData['max']=this.marketForm.value.max;
     this.anEventData['sDate']=new Date(this.marketForm.value.sDate).getTime();
     this.anEventData['eDate']=new Date(this.marketForm.value.eDate).getTime();
-    console.log(this.anEventData);
+    //console.log(this.anEventData);
     this.closebutton.nativeElement.click();
     return this.skyService.enableMarket(this.eventTypeData, this.aCompetitionData, this.anEventData, this.aMarketData, this.selected);
   }
