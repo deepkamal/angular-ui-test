@@ -36,7 +36,7 @@
                   </a>
                 </h5>
               </div>
-              <!-- <div id="collapse{{item.event.id}}_{{aCompetition.comp.competition.id}}" class="collapse" data-parent="#accordion-1" aria-labelledby="heading-1-1">
+              <div id="collapse{{item.id}}_{{aCompetition.id}}" class="collapse" data-parent="#accordion-1" aria-labelledby="heading-1-1">
                 <div class="card-body">
   
                         <div>
@@ -51,8 +51,8 @@
                                 <tr>
                                   <th colspan="99" style="background: #efefef;">Match Odds</th>
                                 </tr>
-                                <tr *ngFor="let aMarket of item.market">
-                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.live" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition.comp,item,aMarket,val.checked)" data-toggle="modal" data-target="#exampleModal"></td>
+                                <tr *ngFor="let aMarket of item.markets">
+                                    <td><input #val [checked]="aMarket.live" [disabled]="aMarket.inPlay" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition,item,aMarket,val.checked)" data-toggle="modal" data-target="#exampleModal"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
@@ -65,7 +65,7 @@
                                       </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr *ngIf="item.hasInPlayFancyBetMarkets">
                                   <th colspan="99" style="background: #efefef;">Fency Market</th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.fency">
@@ -82,7 +82,7 @@
                                     </div>
                                   </td>
                               </tr>
-                              <tr>
+                              <tr *ngIf="item.hasInPlayBookMakerMarkets">
                                 <th colspan="99" style="background: #efefef;">Bookmakers Market</th>
                               </tr>
                               <tr *ngFor="let aMarket of item.book">
@@ -104,7 +104,7 @@
                           </div>
   
                 </div>
-              </div> -->
+              </div>
             </div>
             
           </div>      
