@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BetappService } from '@app/_services';
 import { DOCUMENT } from '@angular/common';
+import { SkyexchangeService } from '@app/_services/skyexchange.service';
 
 @Component({
   selector: 'app-live-events',
@@ -27,14 +27,14 @@ export class LiveEventsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private betappService: BetappService,
+    private skyService: SkyexchangeService,
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document
   ) { }
 
   ngOnInit(): void {
     this.showLoad=true;
-    this.betappService.getAllLiveMarkets().subscribe(markets => {
+    this.skyService.getAllLiveMarkets().subscribe(markets => {
       this.showLoad=false;
       this.liveMarkets=markets;
       // console.log(this.liveMarkets);
@@ -68,7 +68,7 @@ export class LiveEventsComponent implements OnInit {
 
   getRunnerList(selection,marketId){
    // this.showLoad=true;
-    // this.betappService.getRunnerListByMarket(marketId).subscribe(runner => {
+    // this.skyService.getRunnerListByMarket(marketId).subscribe(runner => {
     //   //console.log(runner);
     //   this.showLoad=false;
      this.liveMarketRunner=selection;
@@ -89,7 +89,7 @@ export class LiveEventsComponent implements OnInit {
     this.details['outcome_message']=this.closeMsg;
     //console.log(this.details);
     this.showLoad=true;
-    this.betappService.declareMarket(this.details).subscribe(runner => {
+    this.skyService.declareMarket(this.details).subscribe(runner => {
       if(runner.result.success){
         alert("Market close successfully");
         window.location.href="/orgadmin/eventtype/liveevents";
@@ -104,21 +104,21 @@ export class LiveEventsComponent implements OnInit {
   }
 
   activateMarket(marketId){
-    return this.betappService.activateMarket(marketId);
+    return this.skyService.activateMarket(marketId);
   }
 
   suspendMarket(marketId){
-    return this.betappService.suspendMarket(marketId);
+    return this.skyService.suspendMarket(marketId);
   }
 
   saveMarkets(): any {
     this.showLoad=true;
-    return this.betappService.saveMarkets().then(resp=>{
+    return this.skyService.saveMarkets().then(resp=>{
       //  console.log("RESPONSE",resp);
       //console.log(resp.add_result.result.markets_added);
       if(resp.add_result.marketsToAdd!="nothing to add"){
       resp.add_result.result.markets_added.forEach(element => {
-      this.betappService.runMarketApi(element);
+      this.skyService.runMarketApi(element);
       this.showLoad=false;
 
       alert("Process completed");
@@ -133,6 +133,6 @@ export class LiveEventsComponent implements OnInit {
   }
 
   clearMarkets(): any {
-    return console.log(this.betappService.clearMarkets());
+    return console.log(this.skyService.clearMarkets());
   }    
 }

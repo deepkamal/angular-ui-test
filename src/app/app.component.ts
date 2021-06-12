@@ -1,6 +1,7 @@
-﻿import {Component} from '@angular/core';
+﻿import { SkyexchangeService } from './_services/skyexchange.service';
+import {Component} from '@angular/core';
 
-import {AccountService, BetappService} from './_services';
+import {AccountService} from './_services';
 import {User} from './_models';
 import {Competition, EventType} from './_models/events';
 import {Observable} from "rxjs";
@@ -13,12 +14,12 @@ export class AppComponent {
   Notifications:any;
   eventCount:any=[];
 
-  constructor(private accountService: AccountService, private betService: BetappService) {
+  constructor(private accountService: AccountService, private skyService: SkyexchangeService) {
     this.accountService.user.subscribe(x => this.user = x);
-    this.betService.listEventType().subscribe((x:any) => {
+    this.skyService.listEventType().subscribe((x:any) => {
       this.eventTypes = JSON.parse(x.result);
     });
-    this.betService.getLiveEventCount().subscribe((x:any) => {
+    this.skyService.getLiveEventCount().subscribe((x:any) => {
       //this.eventTypes = x;
       x.onLiveEvents.forEach(element => {
         this.eventCount[element.eventType]=element.count;
@@ -40,7 +41,7 @@ export class AppComponent {
   }
 
   listCompetitionsOfType(typeId): Competition[] {
-    return this.betService.listCompetitionsByEventType(typeId);
+    return this.skyService.listCompetitionsByEventType(typeId);
   }
 
   logout(): any {
