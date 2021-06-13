@@ -220,12 +220,12 @@ export class SkyexchangeService {
     }
   }
 
-  enableMarket(eventType, aCompetition, anEvent, aMarket, selected: boolean,mtype): any {
+  enableMarket(eventType, aCompetition, anEvent, aMarket, selected: boolean): any {
     var mtype1="";
-    if(mtype=="odds"){
+    if(anEvent.mtype=="odds"){
       mtype1="SKY_LIVE";
     }
-    else if(mtype=='fancy'){
+    else if(anEvent.mtype=='fancy'){
       mtype1="SKY_FANCY";
     }
     else{
@@ -245,7 +245,7 @@ export class SkyexchangeService {
       marketId: aMarket.marketId,
       marketName: aMarket.marketName,
       marketMatched: aMarket.totalMatched,
-      marketType:mtype,
+      marketType:mtype1,
       "min_bet": anEvent.min,
       "max_bet": anEvent.max,
       "market_live_after": anEvent.sDate,
