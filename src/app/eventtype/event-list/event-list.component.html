@@ -20,7 +20,7 @@
             <div class="card" *ngFor="let item of aCompetition.event;let j=index">
               <div class="card-header" id="heading-1-1">
                 <h5 class="mb-0">
-                  <a class="collapsed" role="button" data-toggle="collapse" href="#collapse{{item.id}}_{{aCompetition.id}}" aria-expanded="false" aria-controls="collapse-1-1">
+                  <a class="collapsed" role="button" data-toggle="collapse" (click)="getFencyBet(item.eventType,item.id,item.hasInPlayFancyBetMarkets)" href="#collapse{{item.id}}_{{aCompetition.id}}" aria-expanded="false" aria-controls="collapse-1-1">
                     
                     <div class="row">
                       <div class="col-md-3">{{ item.name }} ({{item.markets.length}})</div>
@@ -52,7 +52,7 @@
                                   <th colspan="99" style="background: #efefef;">Match Odds</th>
                                 </tr>
                                 <tr *ngFor="let aMarket of item.markets">
-                                    <td><input #val [checked]="isMarketLive(aMarket.marketId)" [disabled]="aMarket.inPlay" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition,item,aMarket,val.checked)" data-toggle="modal" data-target="#exampleModal"></td>
+                                    <td><input #val [checked]="isMarketLive(aMarket.marketId)" [disabled]="aMarket.inPlay" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition,item,aMarket,val.checked,'odd')" data-toggle="modal" data-target="#exampleModal"></td>
                                     <td>{{aMarket.marketId}}</td>
                                     <td>{{aMarket.marketName}}</td>
                                     <td>{{aMarket.totalMatched}}</td>
@@ -65,27 +65,27 @@
                                       </div>
                                     </td>
                                 </tr>
-                                <tr *ngIf="item.hasInPlayFancyBetMarkets">
+                                <tr *ngIf="item.hasFancyBetMarkets">
                                   <th colspan="99" style="background: #efefef;">Fency Market</th>
                                 </tr>
-                                <tr *ngFor="let aMarket of item.fency">
-                                  <td><input #val [checked]="isMarketLive(aMarket.marketId)" type="checkbox"></td>
-                                  <td>{{aMarket.marketId}}</td>
-                                  <td>{{aMarket.marketName}}</td>
-                                  <td>{{aMarket.minMaxSetting}}</td>
+                                <tr *ngFor="let fMarket of fencyMarkets">
+                                  <td><input #val [checked]="isMarketLive(fMarket.marketId)" type="checkbox" (click)="openLiveMarketModel(eventType,aCompetition,item,fMarket,val.checked,'fancy')" data-toggle="modal" data-target="#exampleModal" data-toggle="modal" data-target="#exampleModal"></td>
+                                  <td>{{fMarket.marketId}}</td>
+                                  <td>{{fMarket.marketName}}</td>
+                                  <td>{{fMarket.minMaxSetting}}</td>
                                   <td>
                                     <div class="toggle-button">
                                       <label class="switch">
-                                        <input type="checkbox" [checked]="isMarketLive(aMarket.marketId)" (change)="toggleMarket(aMarket.marketId,$event,aMarket.enabled)">
+                                        <input type="checkbox" [checked]="isMarketLive(fMarket.marketId)" (change)="toggleMarket(fMarket.marketId,$event,fMarket.enabled)">
                                         <span class="slider round"></span>
                                       </label>
                                     </div>
                                   </td>
                               </tr>
-                              <tr *ngIf="item.hasInPlayBookMakerMarkets">
+                              <tr *ngIf="item.hasBookMakerMarkets">
                                 <th colspan="99" style="background: #efefef;">Bookmakers Market</th>
                               </tr>
-                              <tr *ngFor="let aMarket of item.book">
+                              <tr *ngFor="let aMarket of bookMarkets">
                                 <td><input #val [checked]="isMarketLive(aMarket.marketId)" type="checkbox"></td>
                                 <td>{{aMarket.marketId}}</td>
                                 <td>{{aMarket.marketName}}</td>

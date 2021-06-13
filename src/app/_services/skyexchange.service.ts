@@ -160,11 +160,20 @@ export class SkyexchangeService {
 
   }
 
-  getFencyBet(eventId): Observable<any> {
-    return this.http.get<any>("https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/fancyMarkets?eventId="+eventId);
+  // getFencyBet(eventId): Observable<any> {
+  //   return this.http.get<any>("https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/fancyMarkets?eventId="+eventId);
+  // }
+  
+  getFencyBet(eventType,eventId): Observable<any> {
+    return this.http.get<any>("/exchange/member/playerService/queryFancyBetMarkets?eventType="+eventType+"&eventId="+eventId);
   }
-  getBookmakerMarket(eventId): Observable<any> {
-    return this.http.get<any>("https://hb8w2ob1u4.execute-api.ap-south-1.amazonaws.com/v2/bookMakerMarkets?eventId="+eventId);
+
+  getBookmakerMarket(eventType,eventId): Observable<any> {
+    return this.http
+      .post("/exchange/member/playerService/queryBookMakerMarkets?eventType="+eventType+"&eventId="+eventId,"",
+      )
+      .pipe(catchError(this.handleError));
+    //return this.http.get<any>("/exchange/member/playerService/queryBookMakerMarkets?eventType="+eventType+"&eventId="+eventId);
   }
 
   listMarketsForEvent(eventId): Observable<Market[]> {
@@ -211,16 +220,16 @@ export class SkyexchangeService {
     }
   }
 
-  enableMarket(eventType, aCompetition, anEvent, aMarket, selected: boolean): any {
-    var mtype="";
-    if(aMarket.marketType=="Match Odds"){
-      mtype="SKY_LIVE";
+  enableMarket(eventType, aCompetition, anEvent, aMarket, selected: boolean,mtype): any {
+    var mtype1="";
+    if(mtype=="odds"){
+      mtype1="SKY_LIVE";
     }
-    else if(aMarket.marketType=="FANCY"){
-      mtype="SKY_FANCY";
+    else if(mtype=='fancy'){
+      mtype1="SKY_FANCY";
     }
     else{
-      mtype="SKY_BM";
+      mtype1="SKY_BM";
     }
     let eventMarketObj = {
       eventId: anEvent.id,
@@ -252,7 +261,7 @@ export class SkyexchangeService {
 
       let selectionObj = {}
 
-      eventMarketObj['selections'].map((sel, index) => {
+      eventMarketObj['selections']?eventMarketObj['selections']:[].map((sel, index) => {
         selectionObj[sel.selectionId] = sel;
       })
 
